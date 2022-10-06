@@ -9,7 +9,7 @@ class Player:
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 8
         self.velocity = pygame.math.Vector2(0,0)
-        self.correction = pygame.math.Vector2(0,0)
+        #self.correction = pygame.math.Vector2(0,0)
         self.gravity = 0.1
         self.gravity_Speed = 0
         self.jump_Speed = 16
@@ -19,10 +19,14 @@ class Player:
         self.collide_Right = 0
         self.collide_Left = 0
 
+    def correction(self, correctX, correctY):
+        self.rect.top += correctY
+        self.rect.left += correctX
+
     def update(self):
 
         self.direction *= 0
-        self.correction *= 0
+        #self.correction *= 0
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and (not self.collide_Left):
@@ -43,12 +47,12 @@ class Player:
             self.gravity_Speed += self.gravity
         else:
             self.gravity_Speed = 0
-            self.correction.y = (screen_Hieght - 100) - self.rect.bottom
+            #self.correction.y = (screen_Hieght - 100) - self.rect.bottom
             if self.velocity.y > 0:
                 self.velocity.y = 0
         
         self.rect.topleft += self.velocity
-        self.rect.topleft += self.correction
+        #self.rect.topleft += self.correction
 
         
         

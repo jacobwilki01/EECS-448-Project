@@ -10,7 +10,12 @@ class Level:
         self.player = Player(screen, (0,screen_Hieght-100))
         self.player.rect.bottom = screen_Hieght-100
 
+        self.correctX = 0
+        self.correctY = 0
+
     def playerCollision(self):
+        
+
         if self.player.rect.left <= 0:
             self.player.collide_Left = 1
         else:
@@ -23,6 +28,8 @@ class Level:
         
         if self.player.rect.bottom >= screen_Hieght-100:
             self.player.collide_Floor = 1
+            self.correctY = (screen_Hieght - 100) - self.player.rect.bottom
+            
         else:
             self.player.collide_Floor = 0
         
@@ -33,6 +40,8 @@ class Level:
 
         pygame.draw.rect(self.screen, '#c73c3e', self.player.rect)
 
-        self.playerCollision()
+        
         self.player.update()
+        self.playerCollision()
+        self.player.correction(self.correctX, self.correctY)
         
