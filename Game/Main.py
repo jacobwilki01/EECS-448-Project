@@ -1,9 +1,10 @@
 import pygame
 from sys import exit
+from Settings import screen_Width, screen_Hieght, frame_Rate
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([1000, 600])
+screen = pygame.display.set_mode([screen_Width, screen_Hieght])
 pygame.display.set_caption("Menu")
 clock = pygame.time.Clock()
 
@@ -24,6 +25,6 @@ while running:
     screen.blit(Background_surface,(0,0))
 
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(frame_Rate)
 
 
