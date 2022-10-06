@@ -1,4 +1,5 @@
 import pygame
+from Settings import *
 
 class Player:
     def __init__(self, surface, pos):
@@ -8,7 +9,8 @@ class Player:
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 8
         self.velocity = pygame.math.Vector2(0,0)
-        self.gravity = 0.08
+        self.correction = pygame.math.Vector2(0,0)
+        self.gravity = 0.1
         self.gravity_Speed = 0
         self.jump_Speed = 16
 
@@ -18,7 +20,9 @@ class Player:
         self.collide_Left = 0
 
     def update(self):
+
         self.direction *= 0
+        self.correction *= 0
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] and (not self.collide_Left):
@@ -28,12 +32,28 @@ class Player:
         if keys[pygame.K_UP] and self.collide_Floor:
             self.direction.y += -1
         
+        if self.direction.y <= -1:
+            self.velocity.y += -(self.jump_Speed)
+            self.direction.y += 1
+
 
         self.velocity.x = self.direction.x * self.speed
-        self.velocity.y = self.direction.y * self.jump_Speed
+        self.velocity.y += self.gravity_Speed
+
         if (not self.collide_Floor):
-            self.direction.y -= self.gravity
-        elif self.direction.y < 0:
-            self.direction.y = 0
-            
+            self.gravity_Speed += self.gravity
+        else:
+            self.gravity_Speed = 0
+            self.correction.y = (screen_Hieght - 100) - self.rect.bottom
+            if self.velocity.y > 0:
+                self.velocity.y = 0
+
+        print(self.correction, self.velocity)
+
+        
+        
         self.rect.topleft += self.velocity
+        self.rect.topleft += self.correction
+
+        
+        
