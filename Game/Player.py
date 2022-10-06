@@ -36,7 +36,6 @@ class Player:
             self.velocity.y += -(self.jump_Speed)
             self.direction.y += 1
 
-
         self.velocity.x = self.direction.x * self.speed
         self.velocity.y += self.gravity_Speed
 
@@ -47,10 +46,6 @@ class Player:
             self.correction.y = (screen_Hieght - 100) - self.rect.bottom
             if self.velocity.y > 0:
                 self.velocity.y = 0
-
-        print(self.correction, self.velocity)
-
-        
         
         self.rect.topleft += self.velocity
         self.rect.topleft += self.correction

@@ -1,6 +1,10 @@
 ## List of things that have been done
     - Create a window
     - Create a background (temporary)
+    - Created settings to keep track of 'system' variables
+    - Implemented simple main menu
+    - Implemented a level with a player
+    - Player movement
     
 
 
