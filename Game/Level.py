@@ -34,5 +34,5 @@ class Level:
         pygame.draw.rect(self.screen, '#c73c3e', self.player.rect)
 
         self.playerCollision()
-        self.player.update(events)
+        self.player.update()
         
