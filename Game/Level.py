@@ -10,9 +10,6 @@ class Level:
         self.player = Player(screen, (0,screen_Hieght-100))
         self.player.rect.bottom = screen_Hieght-100
 
-        self.correctX = 0
-        self.correctY = 0
-
     def playerCollision(self):
         
 
@@ -28,7 +25,7 @@ class Level:
         
         if self.player.rect.bottom >= screen_Hieght-100:
             self.player.collide_Floor = 1
-            self.correctY = (screen_Hieght - 100) - self.player.rect.bottom
+            self.player.correction_Vec.y = (screen_Hieght - 100) - self.player.rect.bottom
             
         else:
             self.player.collide_Floor = 0
@@ -43,5 +40,5 @@ class Level:
         
         self.player.update()
         self.playerCollision()
-        self.player.correction(self.correctX, self.correctY)
+        self.player.correction()
         
