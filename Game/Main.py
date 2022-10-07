@@ -3,7 +3,7 @@ from sys import exit
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([1000, 600])
+screen = pygame.display.set_mode([1280, 720])
 pygame.display.set_caption("Menu")
 clock = pygame.time.Clock()
 
