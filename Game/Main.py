@@ -4,6 +4,20 @@ from Level import *
 from sys import exit
 from Settings import screen_Width, screen_Hieght, frame_Rate
 
+#temprory variables, move later
+class Temp: 
+    layout = [
+    '                          ',
+    '                          ',
+    '                          ',
+    ' XX    XXXX             XX',
+    ' XX                       ',
+    ' XXXX              XXX    ',
+    ' XXXX         XXX         ',
+    ' XXXXXXXXXX   XXX   XXXXXX']
+    tile_Size = 64
+#temp variables end
+
 #Pygame setup
 pygame.init()
 
@@ -15,6 +29,7 @@ clock = pygame.time.Clock()
 game_State = 0
 main_Menu = Menu(screen)
 level = Level(screen)
+level.level_Setup(Temp.layout, Temp.tile_Size)
 
 # Run until the user asks to quit
 running = True

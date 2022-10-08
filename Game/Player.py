@@ -7,9 +7,9 @@ class Player:
         self.rect = pygame.Rect(pos, (50, 100))
 
         self.direction = pygame.math.Vector2(0,0)
-        self.speed = 8
         self.velocity = pygame.math.Vector2(0,0)
         self.correction_Vec = pygame.math.Vector2(0,0)
+        self.speed = 8
         self.gravity = 0.1
         self.gravity_Speed = 0
         self.jump_Speed = 16
