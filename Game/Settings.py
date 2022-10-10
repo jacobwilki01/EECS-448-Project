@@ -1,3 +1,3 @@
-screen_Width = 1000
-screen_Hieght = 600
+screen_Width = 1256
+screen_Hieght = 1024
 frame_Rate = 60
