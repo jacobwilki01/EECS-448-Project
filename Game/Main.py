@@ -46,7 +46,7 @@ while running:
         if opt:
             game_State = 1
     else:
-        level.run(events)
+        level.run()
 
     pygame.display.update()
     clock.tick(frame_Rate)
