@@ -5,6 +5,9 @@
     - Implemented simple main menu
     - Implemented a level with a player
     - Player movement
+    - Player-Enviroment Collision
+    - Implemented Level changes
+    - Implemented speed obstacles
     
 
 
