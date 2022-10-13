@@ -8,23 +8,23 @@ from Settings import screen_Width, screen_Hieght, frame_Rate
 #temprory variables, move later
 class Temp: 
     layout0 = [
-    '                                      G',   
+    '                                       ',   
     '                                    XXX',
     '                              XXX      ',
     '                                       ',
-    ' XX    XXXX             XXX            ',
-    ' XX                                    ',
-    ' XXXX              XXX         XXXXX   ',
-    ' XXXX         XXX                      ',
-    ' XXXXXXXXXX   XXX   XXXXXXXXXXXXXXXXXXX']
+    ' XX    XXXX            LXXX           G',
+    ' XX                    L             XX',
+    ' XXXX                  L       XXXXX   ',
+    ' XXXX                  L               ',
+    ' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX        ']
 
     layout1 = [
     '                                    XXX',
     '                 XXXX         XX       ',
-    '        XXXX                           ',
-    ' XX                                    ',
-    ' XX                                   G',
-    ' XXXX   XXX   XXX  XXX X X X X XXXX   X',
+    '                                  L    ',
+    ' XX                               L    ',
+    ' XX                               L   G',
+    ' XXXX   XXX   XXX  XXXXXXXXXXXXXXXX   X',
     '              XXX                      ',
     '              XXX                      ']
 
