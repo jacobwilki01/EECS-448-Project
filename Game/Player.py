@@ -1,5 +1,5 @@
 import pygame
-from Settings import *
+#from Settings import *
 
 class Player:
     def __init__(self, surface, pos):
@@ -38,6 +38,7 @@ class Player:
 
     def update(self):
         self.get_input()
+        self.rect.x += self.direction.x * self.speed
 
 
         

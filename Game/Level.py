@@ -1,5 +1,5 @@
-from time import sleep
-from turtle import delay
+#from time import sleep
+#from turtle import delay
 import pygame
 from Player import Player
 from Tile import Tile
@@ -8,14 +8,18 @@ from Settings import *
 
 
 class Level:
-    def __init__(self, screen):
+    def __init__(self, screen, layout, start_Pos):
         self.screen = screen
 
-        self.floor_Rect = pygame.Rect(0, screen_Hieght-100, screen_Width, 100)
         self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Hieght)
         self.tiles = []
+        self.goal = []
     
-        self.player = Player(screen, (252,0))
+        self.offset = pygame.Vector2(0, 0)
+        self.start_pos = start_Pos
+        self.player = Player(screen, start_Pos)
+
+        self.level_Setup(layout, 64)
 
     def level_Setup(self, layout, tile_Size):
         bottom_Offset = screen_Hieght - len(layout)*tile_Size
@@ -25,12 +29,18 @@ class Level:
                 if valX == 'X':
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile(tile_Size, x, y)
+                    tile = Tile('X', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == 'G':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('G', tile_Size, x, y)
+                    self.goal.append(tile)
+
 
     def horizontal_movement_collision(self):
         player = self.player
-        player.rect.x += self.player.direction.x * self.player.speed
+        #player.rect.x += self.player.direction.x * self.player.speed
 
         for tile in self.tiles:
             if player.rect.colliderect(tile):
@@ -58,27 +68,49 @@ class Level:
         for tile in self.tiles:
             tile.update(shift)
 
+        for tile in self.goal:
+            tile.update(shift)
+
+        self.offset += shift
+
     def scroll_x(self):
         player = self.player
         player_x = player.rect.centerx
         direction_x = player.direction.x
         shift = pygame.math.Vector2(8, 0)
 
-        if player_x < screen_Width / 4 and direction_x < 0:
+        if player_x < screen_Width / 3 and direction_x < 0:
             self.world_shift(shift)
             self.player.speed = 0
-        elif player_x > screen_Width - screen_Width / 4 and direction_x > 0:
+        elif player_x > screen_Width - screen_Width / 3 and direction_x > 0:
             self.world_shift(-shift)
             self.player.speed = 0
         else:
             self.world_shift(0*shift)
             self.player.speed = 8
 
+    def check_Complete(self):
+        for tile in self.goal:
+            if self.player.rect.colliderect(tile.rect):
+                return True
+            else: 
+                return False
+
+    def check_Death(self):
+
+        if(self.player.rect.top > screen_Hieght):
+            self.player.direction.y = 0
+            self.player.rect.topleft = self.start_pos
+            self.world_shift(-self.offset)
+
     def run(self):
-        pygame.draw.rect(self.screen, '#8cbd9c', self.backround_Rect)
+        pygame.draw.rect(self.screen, '#cdcdcd', self.backround_Rect)
 
         for tile in self.tiles:
-            pygame.draw.rect(self.screen, '#c8c8c8', tile.rect)
+            pygame.draw.rect(self.screen, '#363636', tile.rect)
+
+        for tile in self.goal:
+            pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
     
 
         self.player.update()
@@ -87,4 +119,10 @@ class Level:
         self.vertical_movement_collision()
         
         pygame.draw.rect(self.screen, '#c73c3e', self.player.rect)
+
+        self.check_Death()
+        if(self.check_Complete()): 
+            return(True)
+        else: 
+            return False
         
