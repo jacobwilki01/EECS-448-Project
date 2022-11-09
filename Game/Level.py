@@ -11,7 +11,7 @@ class Level:
     def __init__(self, screen, layout, start_Pos):
         self.screen = screen
 
-        self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Hieght)
+        self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.tiles = []
         self.goal = []
     
@@ -22,7 +22,7 @@ class Level:
         self.level_Setup(layout, 64)
 
     def level_Setup(self, layout, tile_Size):
-        bottom_Offset = screen_Hieght - len(layout)*tile_Size
+        bottom_Offset = screen_Height - len(layout)*tile_Size
 
         #Initializes the tiles
         for indY, valY in enumerate(layout):
@@ -114,7 +114,7 @@ class Level:
 
     def check_Death(self):
 
-        if(self.player.rect.top > screen_Hieght):
+        if(self.player.rect.top > screen_Height):
             self.player.direction.y = 0
             self.player.speed = 0
             self.player.rect.topleft = self.start_pos

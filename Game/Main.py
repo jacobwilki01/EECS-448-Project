@@ -3,7 +3,7 @@ from Menu import *
 from World import World
 from Level import Level
 from sys import exit
-from Settings import screen_Width, screen_Hieght, frame_Rate
+from Settings import screen_Width, screen_Height, frame_Rate
 
 #temprory variables, move later
 class Temp: 
@@ -35,12 +35,13 @@ class Temp:
 pygame.init()
 
 #Display screen setup
-screen = pygame.display.set_mode((screen_Width, screen_Hieght))
+screen = pygame.display.set_mode((screen_Width, screen_Height))
 clock = pygame.time.Clock()
 
 #Game Initialization
 game_State = 0
 main_Menu = Menu(screen)
+settings_Menu = Settings(screen)
 
 level0 = Level(screen, Temp.layout0, (128, 0))
 level1 = Level(screen, Temp.layout1, (128, 0))
@@ -60,10 +61,14 @@ while running:
     
     if game_State == 0:
         opt = main_Menu.run(events)
-        if opt:
+        if opt == 1:
             game_State = 1
-    else:
+        elif opt == 2:
+            game_State = 2
+    elif game_State == 1:
         world1.run()
+    elif game_State == 2:
+        settings = settings_Menu.run(events)
 
     pygame.display.update()
     clock.tick(frame_Rate)
