@@ -5,8 +5,6 @@ from Player import Player
 from Tile import Tile
 from Settings import *
 
-
-
 class Level:
     def __init__(self, screen, layout, start_Pos):
         self.screen = screen

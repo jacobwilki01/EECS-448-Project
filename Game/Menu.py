@@ -1,3 +1,4 @@
+from turtle import clear
 import pygame
 from Settings import *
 
@@ -64,29 +65,51 @@ class Settings(Menu):
         self.screen.blit(img, (screen_Width/4 - 100, screen_Height/2 - 150))
 
         #Draw Screen Resolution Menu
-        screenRes_rect = self.button_Rect.copy()
-        screenRes_rect.center = (screen_Width/4 + 160, screen_Height/2 - 135)
-        pygame.draw.rect(self.screen, '#d77467', screenRes_rect)
+        self.screenRes_rect = self.button_Rect.copy()
+        self.screenRes_rect.center = (screen_Width/4 + 190, screen_Height/2 - 135)
+        pygame.draw.rect(self.screen, '#d77467', self.screenRes_rect)
 
         screenRes_text = pygame.font.SysFont('Cambria', 20)
         res_img = screenRes_text.render(f'{screen_Height}x{screen_Width}', True, '#000000')
-        self.screen.blit(res_img, (screenRes_rect.x + 10, screenRes_rect.y + 2))
+        self.screen.blit(res_img, (self.screenRes_rect.x + 10, self.screenRes_rect.y + 2))
 
         resolution_sizes = [(800,600),(1024,768),(1280,720),(1920,1080)]
-        resolution_modes = []        
+        current_res = 0
+        
+        #Screen Resolution Arrows
+        right_arrow = pygame.image.load('graphics/menu_arrow.png')
+        right_arrow.convert()
 
-        for resolution in resolution_sizes:
-            screenRes_text = pygame.font.SysFont('Cambria', 20)
-            img = screenRes_text.render(f'{resolution[1]}x{resolution[0]}', True, '#000000')
+        right_rect = right_arrow.get_rect()
+        right_rect.center = (screen_Width/4 + 254, screen_Height/2 - 135)
+        pygame.draw.rect(self.screen, '#000000', right_rect)
+        self.screen.blit(right_arrow, right_rect)
 
-            submenu_Rect = self.button_Rect.copy()
-            submenu_Rect.center = (screen_Width/4 + 160, screen_Height/2 - 135)
+        left_arrow = pygame.image.load('graphics/menu_arrow_left.png')
+        left_arrow.convert()
 
-            resolution_modes.append((submenu_Rect, img))
+        left_rect = left_arrow.get_rect()
+        left_rect.center = (screen_Width/4 + 125, screen_Height/2 - 135)
+        pygame.draw.rect(self.screen, '#000000', left_rect)
+        self.screen.blit(left_arrow, left_rect)
+
+        #exit rectangle
+        exit = pygame.image.load('graphics/exit.png')
+        exit.convert()
+
+        exit_rect = exit.get_rect()
+        exit_rect.center = (20, 20)
+        pygame.draw.rect(self.screen, "#000000", exit_rect)
+        self.screen.blit(exit,exit_rect)
 
         for event in events:
-            if event == pygame.MOUSEBUTTONUP:
-                if res_img.collidepoint(event.pos):
-                    for mode in resolution_modes:
-                        self.screen.blit(mode[1], (mode[0].x + 10, mode[0].y + 2))
-                        pygame.draw.rect(self.screen, '#d77467', mode[0])
+            if event.type == pygame.MOUSEBUTTONUP:
+                if right_rect.collidepoint(event.pos):
+                    if current_res == 3:
+                        current_res = 0
+                    else:
+                        current_res += 1
+                    window.update_screen_res(resolution_sizes[current_res])
+                    pygame.display.update()
+                elif exit_rect.collidepoint(event.pos):
+                    return 1

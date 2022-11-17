@@ -3,7 +3,7 @@ from Menu import *
 from World import World
 from Level import Level
 from sys import exit
-from Settings import screen_Width, screen_Height, frame_Rate
+from Settings import *
 
 #temprory variables, move later
 class Temp: 
@@ -69,6 +69,8 @@ while running:
         world1.run()
     elif game_State == 2:
         settings = settings_Menu.run(events)
+        if settings:
+            game_State = 0
 
     pygame.display.update()
     clock.tick(frame_Rate)
