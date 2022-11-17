@@ -131,11 +131,7 @@ class Level:
         for tile in self.goal:
             pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
     
-        update = self.player.update()
-        if update:
-            print("hi")
-
-
+        self.player.update()
         self.scroll_x()
         self.horizontal_movement_collision()
         self.vertical_movement_collision()

@@ -109,10 +109,12 @@ class Player:
                         self.paused = False
                         self.surface.fill((0,0,0))
                         break
-                    if self.settings_button.collidepoint(event.pos):\
+                    if self.settings_button.collidepoint(event.pos):
                         pass
                     if self.quit_button.collidepoint(event.pos):
-                        pass
+                        window.set_game_state(0)
+                        self.paused = False
+                        break
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = False
