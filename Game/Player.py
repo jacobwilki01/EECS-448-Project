@@ -3,7 +3,7 @@ from Settings import *
 from time import *
 
 class Player:
-    def __init__(self, surface, pos, main_menu, settings):
+    def __init__(self, surface, pos):
         self.surface = surface
         self.rect = pygame.Rect(pos, (50, 100))
 
@@ -21,9 +21,6 @@ class Player:
 
         self.pause_bg = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.pause_button = pygame.Rect(0 , 0 , 200, 100)
-
-        self.settings = settings
-        self.main_menu = main_menu
 
     def jump(self):
         self.direction.y = self.jump_Speed
@@ -44,6 +41,9 @@ class Player:
         if keys[pygame.K_ESCAPE]:
             self.paused = True
             pause = self.pause()
+            if type(pause) == tuple:
+                if pause[0]:
+                    return pause
             sleep(0.1)
             
     def apply_gravity(self):
@@ -51,7 +51,10 @@ class Player:
         self.rect.y += self.direction.y
 
     def update(self):
-        self.get_input()
+        input = self.get_input()
+        if type(input) == tuple:
+            if input[0]:
+                return input
         
         if abs(self.speed) < self.max_Speed or self.speed * self.direction.x < 0:
             self.speed += self.acc * self.direction.x
@@ -110,11 +113,10 @@ class Player:
                         self.surface.fill((0,0,0))
                         break
                     if self.settings_button.collidepoint(event.pos):
-                        pass
+                        return (True, 'settings')
                     if self.quit_button.collidepoint(event.pos):
-                        window.set_game_state(0)
                         self.paused = False
-                        break
+                        return (True, 'quit')
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = False

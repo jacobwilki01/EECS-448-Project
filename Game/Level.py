@@ -6,7 +6,7 @@ from Tile import Tile
 from Settings import *
 
 class Level:
-    def __init__(self, screen, layout, start_Pos, main_menu, settings):
+    def __init__(self, screen, layout, start_Pos):
         self.screen = screen
 
         self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Height)
@@ -15,7 +15,7 @@ class Level:
     
         self.offset = pygame.Vector2(0, 0)
         self.start_pos = start_Pos
-        self.player = Player(screen, start_Pos, main_menu, settings)
+        self.player = Player(screen, start_Pos)
 
         self.level_Setup(layout, 64)
 
@@ -131,7 +131,11 @@ class Level:
         for tile in self.goal:
             pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
     
-        self.player.update()
+        update = self.player.update()
+        if type(update) == tuple:
+            if update[0]:
+                return update
+        
         self.scroll_x()
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
