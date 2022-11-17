@@ -43,8 +43,8 @@ game_State = 0
 main_Menu = Menu(screen)
 settings_Menu = Settings(screen)
 
-level0 = Level(screen, Temp.layout0, (128, 0))
-level1 = Level(screen, Temp.layout1, (128, 0))
+level0 = Level(screen, Temp.layout0, (128, 0),main_Menu,settings_Menu)
+level1 = Level(screen, Temp.layout1, (128, 0),main_Menu,settings_Menu)
 
 world1_Levels = [ level0, level1]
 world1 = World(world1_Levels)
