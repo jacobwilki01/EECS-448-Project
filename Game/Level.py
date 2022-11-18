@@ -4,6 +4,7 @@ import pygame
 from Player import Player
 from Tile import Tile
 from Settings import *
+from time import *
 
 class Level:
     def __init__(self, screen, layout, start_Pos):
@@ -90,12 +91,14 @@ class Level:
         self.player.collide_Floor = 0
 
         for tile in self.tiles:
-            if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
-
-            if tile.type == "A":
-                print("A")
-
             if player.rect.colliderect(tile):
+                if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
+                
+                if tile.type == 'A':
+                    self.player.direction.x = 0
+                    self.player.direction.y = 0
+                    self.player.rect.bottomright = (tile.goal.x, tile.goal.y)
+
                 if self.player.direction.y > 0:
                     player.rect.bottom = tile.rect.top
                     self.player.collide_Floor = 1
