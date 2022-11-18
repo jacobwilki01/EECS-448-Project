@@ -45,6 +45,20 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('W', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == 'A':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('A', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == 'B':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    for tile in self.tiles:
+                        if tile.type == 'A' and tile.goal == None:
+                            temp = tile
+                            break
+                    tile = Tile('B', tile_Size, x, y, temp)
+                    self.tiles.append(tile)
 
         #Centers Camera
         shift = pygame.math.Vector2( (screen_Width/2 - self.start_pos[0]), 0)
@@ -61,7 +75,7 @@ class Level:
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
 
                 if tile.type == 'W':
-                    pass
+                    player.get_up_input()
 
                 if self.player.speed < 0:
                     player.rect.left = tile.rect.right
@@ -77,6 +91,9 @@ class Level:
 
         for tile in self.tiles:
             if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
+
+            if tile.type == "A":
+                print("A")
 
             if player.rect.colliderect(tile):
                 if self.player.direction.y > 0:
@@ -136,6 +153,10 @@ class Level:
                 pygame.draw.rect(self.screen, '#222222', tile.rect)
             elif tile.type == 'W':
                 pygame.draw.rect(self.screen, '#919191', tile.rect)
+            elif tile.type == 'A':
+                pygame.draw.rect(self.screen, '#59bfff', tile.rect)
+            elif tile.type == 'B':
+                pygame.draw.rect(self.screen, '#ff8e59', tile.rect)
 
 
         for tile in self.goal:

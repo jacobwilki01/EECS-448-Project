@@ -5,32 +5,6 @@ from sys import exit
 from Settings import *
 from time import *
 
-#temprory variables, move later
-class Temp: 
-    layout0 = [
-    '                                       ',   
-    '                                    XXX',
-    '                              XXX      ',
-    '                                       ',
-    ' XX    XXXX            LXXX           G',
-    ' XX                    L             XX',
-    ' XXXX                  L       XXXXX   ',
-    ' XXXX                  L               ',
-    ' XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX        ']
-
-    layout1 = [
-    '                                    XXX',
-    '                 XXXX         XX       ',
-    '                                  L    ',
-    ' XX                               L    ',
-    ' XX                               L   G',
-    ' XXXX   XXX   XXX  XXXXXXXXXXXXXXXX   X',
-    '              XXX                      ',
-    '              XXX                      ']
-
-    
-#temp variables end
-
 #Pygame setup
 pygame.init()
 
@@ -43,7 +17,7 @@ main_Menu = Menu(screen)
 settings_Menu = Settings(screen)
 
 #world1 = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt'],screen)
-world1 = World(['levels/world1-level3.txt'],screen)
+world1 = World(['levels/teleportertest.txt'],screen)
 
 level_save = None
 
@@ -56,9 +30,6 @@ while running:
             running = False
             exit()
             # "Exit" closes the window without any errors
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_m:
-                game_State = 0
     
     if game_State == 0:
         opt = main_Menu.run(events)
