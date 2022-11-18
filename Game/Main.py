@@ -1,7 +1,6 @@
 import pygame
 from Menu import *
 from World import World
-from Level import Level
 from sys import exit
 from Settings import *
 from time import *
@@ -29,7 +28,7 @@ class Temp:
     '              XXX                      ',
     '              XXX                      ']
 
-    tile_Size = 64
+    
 #temp variables end
 
 #Pygame setup
@@ -43,11 +42,8 @@ clock = pygame.time.Clock()
 main_Menu = Menu(screen)
 settings_Menu = Settings(screen)
 
-level0 = Level(screen, Temp.layout0, (128, 0))
-level1 = Level(screen, Temp.layout1, (128, 0))
-
-world1_Levels = [ level0, level1]
-world1 = World(world1_Levels)
+#world1 = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt'],screen)
+world1 = World(['levels/world1-level3.txt'],screen)
 
 level_save = None
 

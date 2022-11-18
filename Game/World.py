@@ -1,10 +1,22 @@
 import pygame
+from Level import Level
 
 class World:
-    def __init__(self, levels):
-        self.levels = levels
+    def __init__(self, files, screen):
+        self.screen = screen
+        self.levels = []
+        for file in files:
+            self.levels.append(self.gen_levels(file))
         self.current_Level = 0
 
+    def gen_levels(self,file):
+        opened = open(file,'r')
+        lines = []
+        for line in opened:
+            lines.append(line)
+        
+        return Level(self.screen,lines,(128,0))
+        
     def run(self):
         if self.current_Level < len(self.levels):
             start = self.levels[self.current_Level].run()
