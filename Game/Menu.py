@@ -109,7 +109,7 @@ class Settings(Menu):
                         current_res = 0
                     else:
                         current_res += 1
-                    window.update_screen_res(resolution_sizes[current_res])
-                    pygame.display.update()
+                    self.screen = window.update_screen_res(resolution_sizes[current_res],self.screen)
+                    
                 elif exit_rect.collidepoint(event.pos):
                     return 1

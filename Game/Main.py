@@ -9,7 +9,6 @@ from time import *
 pygame.init()
 
 #Display screen setup
-screen = pygame.display.set_mode((screen_Width, screen_Height))
 clock = pygame.time.Clock()
 
 #Game Initialization
