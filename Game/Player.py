@@ -22,6 +22,10 @@ class Player:
         self.pause_bg = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.pause_button = pygame.Rect(0 , 0 , 200, 100)
 
+        self.coins = 0
+        self.score = 0
+        self.lives = 3
+
     def jump(self):
         self.direction.y = self.jump_Speed
 
@@ -73,6 +77,13 @@ class Player:
         self.speed = round(self.speed, 1)
 
         self.rect.left += self.speed
+
+    def getCoin(self,type):
+        self.coins += 1
+        if type == 'C':
+            self.score += 100
+        elif type == 'A':
+            self.score += 500
 
     def pause(self):
         self.surface.fill((255,255,255))

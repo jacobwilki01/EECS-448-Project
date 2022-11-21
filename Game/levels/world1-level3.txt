@@ -1,8 +1,8 @@
 
                         WXXXX   XXXXXXX 
-                        WXXXX       XXX 
-               XXX      WXXXX       XXX 
- XXXX                   WXXXX   G   XXX 
+                A       WXXXX       XXX 
+               XXX      WXXXX       XXX
+ XXXX     C             WXXXX   G   XXX 
  XXXX    XXX            WXXXXXXXXXXXXXX 
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

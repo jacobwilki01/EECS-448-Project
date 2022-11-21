@@ -25,7 +25,11 @@ class World:
                     return (start[0], start[1])
                 elif start[1] == 'settings':
                     return (start[0], start[1], self.current_Level)
+                elif start[1] == 'dead':
+                    self.current_Level = 0
+                    return (start[0], start[1])
             elif start:
                 self.current_Level += 1
         else:
+            self.current_Level = 0
             return (True,'exception')

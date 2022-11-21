@@ -16,8 +16,8 @@ clock = pygame.time.Clock()
 main_Menu = Menu(screen)
 settings_Menu = Settings(screen)
 
-#world1 = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt'],screen)
-world1 = World(['levels/teleportertest.txt'],screen)
+world1 = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt'],screen)
+#world1 = World(['levels/teleporttest.txt'],screen)
 
 level_save = None
 
@@ -46,6 +46,8 @@ while running:
                 game_State = 2
                 level_save = world_run[2]
             elif world_run[1] == "exception":
+                game_State = 0
+            elif world_run[1] == "dead":
                 game_State = 0
     elif game_State == 2:
         settings = settings_Menu.run(events)

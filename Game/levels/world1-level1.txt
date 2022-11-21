@@ -1,8 +1,8 @@
                                    XXXX 
                               XXX       
 
- XX    XXXX            XXXX           G 
- XX                    L             XX 
- XXXX                  L       XXXXX    
- XXXX                  L                
+ XX    XXXX            XXXX      A    G 
+ XX                    L         A   XX 
+ XXXX     A            L       XXXXX    
+ XXXX  CCCCCCC         L                
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX         
