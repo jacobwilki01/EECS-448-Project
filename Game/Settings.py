@@ -1,7 +1,6 @@
 import pygame
 
 class Window:
-    @staticmethod
     def __init__(self):
         self.width = 800
         self.height = 600

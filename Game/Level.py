@@ -187,9 +187,9 @@ class Level:
     def run(self):
         pygame.draw.rect(self.screen, '#cdcdcd', self.backround_Rect)
 
-        '''if self.player.lives <= 0:
+        if self.player.lives <= 0:
             self.player.rect.topleft = self.start_pos
-            return (True, 'dead')'''
+            return (True, 'dead')
 
         for tile in self.tiles:
             if tile.type == 'X':
