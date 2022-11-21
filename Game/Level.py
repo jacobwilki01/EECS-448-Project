@@ -12,6 +12,7 @@ class Level:
 
         self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.tiles = []
+        self.removed_coins = []
         self.goal = []
         self.secret = None
     
@@ -100,6 +101,7 @@ class Level:
 
                 if tile.type == 'C' or tile.type == 'A':
                     self.player.getCoin(tile.type)
+                    self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.speed < 0:
                     player.rect.left = tile.rect.right
@@ -232,6 +234,7 @@ class Level:
         if self.check_Complete():
             self.player.speed = 0
             self.player.rect.topleft = self.start_pos
+            #self.tiles += self.removed_coins
             self.world_shift(-self.offset)
             return True
         else: 
