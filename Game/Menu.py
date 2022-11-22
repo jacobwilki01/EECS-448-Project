@@ -7,9 +7,10 @@ class Menu:
         self.screen = screen
         self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.button_Rect = pygame.Rect(0 , 0 , 200, 100)
+        self.button_Rect_small = pygame.Rect(0, 0, 100, 32.5)
 
-    def run(self, events):
-        #Draw backround
+    def run(self, events, load_error):
+        #Draw background
         pygame.draw.rect(self.screen, '#9b9b9b', self.backround_Rect)
 
         #Draw Title
@@ -19,28 +20,56 @@ class Menu:
         title_Rect.center = (screen_Width/2, screen_Height/2 - 200)
         self.screen.blit(title_Text, title_Rect)
 
-        #Draw button
-        self.button_Rect.center = (screen_Width/3 , (screen_Height/4)*3)
-        pygame.draw.rect(self.screen, '#d77467', self.button_Rect)
+        #Draw New
+        self.new_button = self.button_Rect.copy()
+        self.new_button.center = (screen_Width/4 - 50, (screen_Height/4)*3)
+        pygame.draw.rect(self.screen, '#d77467', self.new_button)
         button1_text = pygame.font.SysFont('Cambria', 30)
-        img = button1_text.render('Start', True, '#000000')
-        self.screen.blit(img, (self.button_Rect.x + 70, self.button_Rect.y + 30))
+        new = button1_text.render('New Game', True, '#000000')
+        self.screen.blit(new, (self.new_button.x + 30, self.new_button.y + 30))
 
-        #Draw button 2
-        self.button_Rect2 = self.button_Rect.copy()
-        self.button_Rect2.center = ((screen_Width/3)*2,(screen_Height/4)*3)
-        pygame.draw.rect(self.screen, '#d77467', self.button_Rect2)
+        #Draw Load
+        self.load_button = self.button_Rect.copy()
+        self.load_button.center = (screen_Width/2 , (screen_Height/4)*3)
+        pygame.draw.rect(self.screen, '#d77467', self.load_button)
         button2_text = pygame.font.SysFont('Cambria', 30)
-        img = button2_text.render('Settings', True, '#000000')
-        self.screen.blit(img, (self.button_Rect2.x + 50, self.button_Rect2.y + 30))
+        load = button2_text.render('Load Game', True, '#000000')
+        self.screen.blit(load, (self.load_button.x + 30, self.load_button.y + 30))
+
+        #Draw Quit
+        self.quit_button = self.button_Rect.copy()
+        self.quit_button.center = ((screen_Width/4)*3 + 50,(screen_Height/4)*3)
+        pygame.draw.rect(self.screen, '#d77467', self.quit_button)
+        button2_text = pygame.font.SysFont('Cambria', 30)
+        quit = button2_text.render('Quit', True, '#000000')
+        self.screen.blit(quit, (self.quit_button.x + 70, self.quit_button.y + 30))
+
+        #Draw Settings
+        self.settings_button = self.button_Rect_small.copy()
+        self.button_Rect_small.center = (self.load_button.center[0], self.load_button.center[1] + 90)
+        pygame.draw.rect(self.screen, '#d77467', self.settings_button)
+        button2_text = pygame.font.SysFont('Cambria', 20)
+        settings = button2_text.render('Settings', True, '#000000')
+        self.screen.blit(settings, (self.settings_button.x + 15, self.settings_button.y + 5))
+
+        #Draw Load Error Text
+        if load_error:
+            error_text = pygame.font.SysFont('Cambria', 20)
+            load_error = error_text.render('No save file found', True, '#000000')
+            self.screen.blit(load_error, (self.load_button.x + 25, self.load_button.y + 70))
 
         #Check for button click
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP:
-                if self.button_Rect.collidepoint(event.pos):
+                if self.new_button.collidepoint(event.pos):
                     return 1
-                elif self.button_Rect2.collidepoint(event.pos):
+                elif self.load_button.collidepoint(event.pos):
                     return 2
+                elif self.quit_button.collidepoint(event.pos):
+                    return 3
+                elif self.settings_button.collidepoint(event.pos):
+                    return 4
+                
 
 class Settings(Menu):
     def __init__(self, screen):
