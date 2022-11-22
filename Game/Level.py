@@ -15,6 +15,7 @@ class Level:
         self.tiles = []
         self.removed_coins = []
         self.goal = []
+        self.enemies = []
     
         self.offset = pygame.Vector2(0, 0)
         self.start_pos = start_Pos
@@ -75,6 +76,11 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('R', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == '1':
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('1', tile_Size/4, x, y)
+                    self.tiles.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -108,6 +114,10 @@ class Level:
                         self.stats.update_score(100)
                     self.removed_coins.append(tile)
                     self.tiles.remove(tile)
+                elif tile.type == '1':
+                    self.stats.update_lives(1)
+                    self.removed_coins.append(tile)
+                    self.tiles.remove(tile)
                 elif self.player.speed < 0:
                     player.rect.left = tile.rect.right
                     self.player.speed = 0
@@ -135,6 +145,10 @@ class Level:
                     else:
                         self.stats.update_coins(1)
                         self.stats.update_score(100)
+                    self.removed_coins.append(tile)
+                    self.tiles.remove(tile)
+                elif tile.type == '1':
+                    self.stats.update_lives(1)
                     self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.direction.y > 0:
@@ -235,15 +249,16 @@ class Level:
                 pygame.draw.rect(self.screen, '#59bfff', tile.rect)
             elif tile.type == 'R':
                 pygame.draw.rect(self.screen, '#ff8e59', tile.rect)
+            elif tile.type == '1':
+                pygame.draw.rect(self.screen, '#00c213', tile.rect)
 
         for tile in self.goal:
             pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
-    
+
         update = self.player.update()
         if type(update) == tuple:
             if update[0]:
                 return update
-    
         
         self.horizontal_movement_collision()
         self.vertical_movement_collision()
