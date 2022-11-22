@@ -107,7 +107,7 @@ class Level:
 
                 if tile.type == 'C' or tile.type == 'A':
                     if tile.type == 'A':
-                        self.stats.update_coins(5)
+                        self.stats.update_coins(1)
                         self.stats.update_score(500)
                     else:
                         self.stats.update_coins(1)
@@ -140,7 +140,7 @@ class Level:
 
                 if tile.type == 'C' or tile.type == 'A':
                     if tile.type == 'A':
-                        self.stats.update_coins(5)
+                        self.stats.update_coins(1)
                         self.stats.update_score(500)
                     else:
                         self.stats.update_coins(1)
@@ -217,10 +217,15 @@ class Level:
         lives_text = font.render('Lives: ' + str(lives), True, (0,0,0))
         coins_text = font.render('Coins: ' + str(coins), True, (0,0,0))
         score_text = font.render('Score: ' + str(score), True, (0,0,0))
+        
+        font = pygame.font.SysFont('Cambria', 25, bold=True)
 
-        screen.blit(lives_text, (10, 10))
-        screen.blit(coins_text, (10, 40))
-        screen.blit(score_text, (10, 70))
+        level_text = font.render('Level ' + str(self.stats.level + 1), True, (0,0,0))
+
+        screen.blit(level_text, (10, 10))
+        screen.blit(lives_text, (110, 10))
+        screen.blit(coins_text, (screen_Width-245, 10))
+        screen.blit(score_text, (screen_Width-135, 10))
 
     def run(self):
         pygame.draw.rect(self.screen, '#cdcdcd', self.backround_Rect)

@@ -3,6 +3,6 @@
                                   L     
  XX                               L     
  XX                               L   G 
- XXXX   XXX   XXX  XXXXXXXXXXXXXXXX   X 
-              XXX                       
+ XXXX   XXX   XXX  XXXXXBBBBXXXXXXX   X 
+              XXX  XXXXXXXXXXXXXXXX                    
               XXX                       

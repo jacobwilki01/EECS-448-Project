@@ -2,7 +2,10 @@ import pygame
 
 class Tile():
     def __init__(self, type, size, x, y, p=None):
-        self.rect = pygame.Rect(x, y, size, size)
+        if type != 'B':
+            self.rect = pygame.Rect(x, y, size, size)
+        else:
+            self.rect = pygame.Rect(x, y+8, size, size-8)
         self.type = type
         self.x = x
         self.y = y
