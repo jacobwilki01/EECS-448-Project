@@ -7,14 +7,14 @@ from Settings import *
 from time import *
 
 class Level:
-    def __init__(self, screen, layout, start_Pos):
+    def __init__(self, screen, layout, start_Pos, stats):
         self.screen = screen
+        self.stats = stats
 
         self.backround_Rect = pygame.Rect(0, 0, screen_Width, screen_Height)
         self.tiles = []
         self.removed_coins = []
         self.goal = []
-        self.secret = None
     
         self.offset = pygame.Vector2(0, 0)
         self.start_pos = start_Pos
@@ -100,7 +100,12 @@ class Level:
                     player.get_up_input()
 
                 if tile.type == 'C' or tile.type == 'A':
-                    self.player.getCoin(tile.type)
+                    if tile.type == 'A':
+                        self.stats.update_coins(5)
+                        self.stats.update_score(500)
+                    else:
+                        self.stats.update_coins(1)
+                        self.stats.update_score(500)
                     self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.speed < 0:
@@ -124,7 +129,13 @@ class Level:
                     return
 
                 if tile.type == 'C' or tile.type == 'A':
-                    self.player.getCoin(tile.type)
+                    if tile.type == 'A':
+                        self.stats.update_coins(5)
+                        self.stats.update_score(500)
+                    else:
+                        self.stats.update_coins(1)
+                        self.stats.update_score(500)
+                    self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.direction.y > 0:
                     player.rect.bottom = tile.rect.top
@@ -175,23 +186,37 @@ class Level:
         if(self.player.rect.top > screen_Height):
             self.player.direction.y = 0
             self.player.speed = 0
-            self.player.lives -= 1
+            self.stats.update_lives(-1)
             self.player.rect.topleft = self.start_pos
             self.world_shift(-self.offset)
     
     def kill(self):
         self.player.direction.y = 0
         self.player.speed = 0
-        self.player.lives -= 1
+        self.stats.update_lives(-1)
         self.player.rect.topleft = self.start_pos
         self.world_shift(-self.offset)
+    
+    def draw_stats(self,lives,coins,score):
+        font = pygame.font.SysFont('Cambria', 25)
+
+        lives_text = font.render('Lives: ' + str(lives), True, (0,0,0))
+        coins_text = font.render('Coins: ' + str(coins), True, (0,0,0))
+        score_text = font.render('Score: ' + str(score), True, (0,0,0))
+
+        screen.blit(lives_text, (10, 10))
+        screen.blit(coins_text, (10, 40))
+        screen.blit(score_text, (10, 70))
 
     def run(self):
         pygame.draw.rect(self.screen, '#cdcdcd', self.backround_Rect)
 
-        if self.player.lives <= 0:
+        if self.stats.lives <= 0:
             self.player.rect.topleft = self.start_pos
+            self.stats.reset()
             return (True, 'dead')
+
+        self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
 
         for tile in self.tiles:
             if tile.type == 'X':
@@ -234,11 +259,8 @@ class Level:
         if self.check_Complete():
             self.player.speed = 0
             self.player.rect.topleft = self.start_pos
-            #self.tiles += self.removed_coins
+            #fix coins!
             self.world_shift(-self.offset)
             return True
         else: 
             return False
-
-        
-        
