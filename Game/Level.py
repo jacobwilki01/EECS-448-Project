@@ -105,7 +105,7 @@ class Level:
                         self.stats.update_score(500)
                     else:
                         self.stats.update_coins(1)
-                        self.stats.update_score(500)
+                        self.stats.update_score(100)
                     self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.speed < 0:
@@ -134,7 +134,7 @@ class Level:
                         self.stats.update_score(500)
                     else:
                         self.stats.update_coins(1)
-                        self.stats.update_score(500)
+                        self.stats.update_score(100)
                     self.removed_coins.append(tile)
                     self.tiles.remove(tile)
                 elif self.player.direction.y > 0:
