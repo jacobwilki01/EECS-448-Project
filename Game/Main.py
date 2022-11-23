@@ -8,7 +8,7 @@ from time import *
 #Pygame setup
 pygame.init()
 pygame.display.set_caption('Alpha Speed')
-#need to add icon
+pygame.display.set_icon(pygame.image.load("graphics/window_icon.png"))
 
 #Display screen setup
 clock = pygame.time.Clock()
