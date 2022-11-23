@@ -31,72 +31,84 @@ class Level:
         #Initializes the tiles
         for indY, valY in enumerate(layout):
             for indX, valX in enumerate(valY):
-                if valX == 'X':
+                #Basics
+                if valX == 'X': #Floor
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('X', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == 'G':
+                elif valX == 'G': #Goal
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('G', tile_Size, x, y)
                     self.goal.append(tile)
-                elif valX == 'L':
+                
+                #Features
+                elif valX == 'L': #Run-Through Wall
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('L', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == 'W':
+                elif valX == 'W': #Wall Climb
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('W', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == 'A':
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
-                    tile = Tile('A', tile_Size/4, x, y)
-                    self.tiles.append(tile)
-                elif valX == 'B':
+                elif valX == 'B': #Lava
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('B', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == 'C':
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
-                    tile = Tile('C', tile_Size/4, x, y)
-                    self.tiles.append(tile)
-                elif valX == 'P':
+                elif valX == 'P': #Portal Entrance
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('P', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == 'R':
+                elif valX == 'R': #Portal Exit
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('R', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == '1':
+                elif valX == 'M': #Super Jump
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('M', tile_Size, x, y)
+                    self.tiles.append(tile)
+
+                #Items (Coins / 1-Ups)
+                elif valX == 'A': #5 Coin
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('A', tile_Size/4, x, y)
+                    self.tiles.append(tile)
+                elif valX == 'C': #1 Coin
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('C', tile_Size/4, x, y)
+                    self.tiles.append(tile)
+                elif valX == '1': #1-Up
                     x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
                     y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('1', tile_Size/4, x, y)
                     self.tiles.append(tile)
-                elif valX == '`':
+                
+                #message tiles
+                elif valX == '`': #Level 1 Message
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('`', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == '@':
+                elif valX == '@': #Level 2 Message
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('@', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == '$':
+                elif valX == '$': #Level 3 Message
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('$', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == '#':
+                elif valX == '#': #Level 4 Message
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
@@ -154,6 +166,9 @@ class Level:
 
         for tile in self.tiles:
             if player.rect.colliderect(tile):
+                if self.player.jump_Speed == -24 and tile.type != 'M':
+                    self.player.jump_Speed = -16
+
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
                 if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
@@ -161,6 +176,9 @@ class Level:
                 if tile.type == 'B':
                     self.kill()
                     return
+                
+                if tile.type == 'M':
+                    self.player.jump_Speed = -24
 
                 if tile.type == 'C' or tile.type == 'A':
                     if tile.type == 'A':
@@ -281,6 +299,8 @@ class Level:
                 pygame.draw.rect(self.screen, '#ff8e59', tile.rect)
             elif tile.type == '1':
                 pygame.draw.rect(self.screen, '#00c213', tile.rect)
+            elif tile.type == 'M':
+                pygame.draw.rect(self.screen, '#33ff33', tile.rect)
             elif tile.type == '`':
                 pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Run Fast!', True, (0,0,0))
