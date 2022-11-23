@@ -1,8 +1,8 @@
-
+                                 AAAAA
                         WXXXX   XXXXXXX 
                 A       WXXXX       XXX 
-               XXX      WXXXX       XXX
- XXXX     C             WXXXX   G   XXX 
+               XXX   $  WXXXX       XXX
+ XXXX     C             WXXXX  CC G XXX 
  XXXX    XXX            WXXXXXXXXXXXXXX 
- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 
+ XXXXXXXXXXXXXXXBBBBXXXXXXXXXXXXXXXXXXX 
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

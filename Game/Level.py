@@ -81,6 +81,26 @@ class Level:
                     y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('1', tile_Size/4, x, y)
                     self.tiles.append(tile)
+                elif valX == '`':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('`', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '@':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('@', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '$':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('$', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '#':
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('#', tile_Size, x, y)
+                    self.tiles.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -101,6 +121,8 @@ class Level:
         for tile in self.tiles:
             if player.rect.colliderect(tile):
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
+                
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
 
                 if tile.type == 'W':
                     player.get_up_input()
@@ -134,6 +156,8 @@ class Level:
             if player.rect.colliderect(tile):
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
+
                 if tile.type == 'B':
                     self.kill()
                     return
@@ -229,6 +253,7 @@ class Level:
 
     def run(self):
         pygame.draw.rect(self.screen, '#cdcdcd', self.backround_Rect)
+        message_font = pygame.font.SysFont('Cambria', 30, bold=True)
 
         if self.stats.lives <= 0:
             self.player.rect.topleft = self.start_pos
@@ -256,9 +281,26 @@ class Level:
                 pygame.draw.rect(self.screen, '#ff8e59', tile.rect)
             elif tile.type == '1':
                 pygame.draw.rect(self.screen, '#00c213', tile.rect)
+            elif tile.type == '`':
+                pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
+                message = message_font.render('Run Fast!', True, (0,0,0))
+                screen.blit(message, (tile.rect.x, tile.rect.y))
+            elif tile.type == '@':
+                pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
+                message = message_font.render('Jump High!', True, (0,0,0))
+                screen.blit(message, (tile.rect.x, tile.rect.y))
+            elif tile.type == '$':
+                pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
+                message = message_font.render('Climb Up!', True, (0,0,0))
+                screen.blit(message, (tile.rect.x, tile.rect.y))
+            elif tile.type == '#':
+                pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
+                message = message_font.render('Jump as Far as You Can!', True, (0,0,0))
+                screen.blit(message, (tile.rect.x, tile.rect.y))
 
         for tile in self.goal:
-            pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
+            if tile.type == 'G':
+                pygame.draw.rect(self.screen, '#9ae7c0', tile.rect)
 
         update = self.player.update()
         if type(update) == tuple:
@@ -279,7 +321,6 @@ class Level:
         if self.check_Complete():
             self.player.speed = 0
             self.player.rect.topleft = self.start_pos
-            #fix coins!
             self.world_shift(-self.offset)
             return True
         else: 

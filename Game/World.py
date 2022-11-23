@@ -17,6 +17,8 @@ class World:
         for line in opened:
             lines.append(line)
         
+        opened.close()
+        
         return Level(self.screen,lines,(128,0), self.stats)
         
     def run(self):
