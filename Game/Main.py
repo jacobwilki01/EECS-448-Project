@@ -34,7 +34,7 @@ while running:
     
     if has_died:
         world = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt'],screen)
-        #world = World(['levels/superjumptest.txt'],screen)
+        #world = World(['levels/disappearingtest.txt'],screen)
         has_died = False
 
     if game_State == 0:

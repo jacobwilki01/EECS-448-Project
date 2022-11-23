@@ -14,12 +14,20 @@ class Tile():
             self.make_teleporter()
         elif self.type == 'R' and p != None:
             p.goal = self
+        
+        if self.type == 'V':
+            self.been_touched = False
+            self.timer = 0
 
     def update(self, shift):
         self.rect.topleft += shift
     
     def make_teleporter(self):
         self.goal = None
+    
+    def touched(self):
+        if self.type == 'V':
+            self.been_touched = True
     
     def __str__(self):
         return f"({self.x}, {self.y})"

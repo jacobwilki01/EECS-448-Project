@@ -74,6 +74,11 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('M', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == 'V': #Disappearing Platform
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('V', tile_Size, x, y)
+                    self.tiles.append(tile)
 
                 #Items (Coins / 1-Ups)
                 elif valX == 'A': #5 Coin
@@ -179,6 +184,14 @@ class Level:
                 
                 if tile.type == 'M':
                     self.player.jump_Speed = -24
+
+                if tile.type == 'V':
+                    if not tile.been_touched:
+                        tile.touched()
+                    else:
+                        tile.timer += 1
+                    if tile.timer > 25:
+                        self.tiles.remove(tile)
 
                 if tile.type == 'C' or tile.type == 'A':
                     if tile.type == 'A':
@@ -301,6 +314,8 @@ class Level:
                 pygame.draw.rect(self.screen, '#00c213', tile.rect)
             elif tile.type == 'M':
                 pygame.draw.rect(self.screen, '#33ff33', tile.rect)
+            elif tile.type == 'V':
+                pygame.draw.rect(self.screen, '#cce6ff', tile.rect)
             elif tile.type == '`':
                 pygame.draw.rect(self.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Run Fast!', True, (0,0,0))
