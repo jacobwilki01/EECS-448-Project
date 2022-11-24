@@ -1,10 +1,11 @@
 import pygame
 from Level import Level
+from Settings import Window
 from Stats import World_Stats
 
 class World:
-    def __init__(self, files, screen):
-        self.screen = screen
+    def __init__(self, files, window: Window):
+        self.window = window
         self.stats = World_Stats()
         self.levels = []
 
@@ -19,7 +20,7 @@ class World:
         
         opened.close()
         
-        return Level(self.screen,lines,(128,0), self.stats)
+        return Level(self.window, lines, (128,0), self.stats)
         
     def run(self):
         if self.stats.level < len(self.levels):
