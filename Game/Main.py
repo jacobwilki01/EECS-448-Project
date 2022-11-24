@@ -12,6 +12,14 @@ pygame.display.set_icon(pygame.image.load("graphics/window_icon.png"))
 
 window = Window()
 
+#Try loading user settings
+try:
+    file = open("saves/settings.txt", "r")
+    window.update_screen_res((int(file.readline()), int(file.readline())))
+    file.close()
+except:
+    pass
+
 #Display screen setup
 clock = pygame.time.Clock()
 
@@ -32,6 +40,7 @@ while running:
         if event.type == pygame.QUIT or window.game_state == 3:
             running = False
             world.stats.write_save_file()
+            window.save_settings()
             exit()
     
     if has_died:

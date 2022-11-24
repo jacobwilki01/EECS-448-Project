@@ -28,6 +28,13 @@ class Window:
         #pygame.display.update() 
         self.width = res[0]
         self.height = res[1]
+    
+    def save_settings(self):
+        file = open("saves/settings.txt", "w")
+        file.write(str(self.width) + "\n")
+        file.write(str(self.height) + "\n")
+
+        file.close()
 
 '''
 window = Window()
