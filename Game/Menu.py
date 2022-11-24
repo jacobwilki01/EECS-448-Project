@@ -137,6 +137,9 @@ class Settings(Menu):
         self.jump_button_rect = self.button_Rect.copy()
         self.jump_button_rect.center = (self.window.width/2 - 20, self.window.height/2 - 85)
         pygame.draw.rect(self.window.screen, '#d77467', self.jump_button_rect)
+        if self.window.get_keys()[0] == pygame.K_UP:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.jump_button_rect, 2)
+
         up_text = pygame.font.SysFont('Cambria', 20)
         up_img = up_text.render('Up Arrow', True, '#000000')
         self.window.screen.blit(up_img, (self.jump_button_rect.x + 12, self.jump_button_rect.y + 1))
@@ -144,6 +147,9 @@ class Settings(Menu):
         self.jump_button_rect_2 = self.button_Rect.copy()
         self.jump_button_rect_2.center = (self.window.width/2 + 100, self.window.height/2 - 85)
         pygame.draw.rect(self.window.screen, '#d77467', self.jump_button_rect_2)
+        if self.window.get_keys()[0] == pygame.K_w:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.jump_button_rect_2, 2)
+
         up_text = pygame.font.SysFont('Cambria', 20)
         up_img = up_text.render('W', True, '#000000')
         self.window.screen.blit(up_img, (self.jump_button_rect_2.x + 45, self.jump_button_rect_2.y + 1))
@@ -151,6 +157,9 @@ class Settings(Menu):
         self.jump_button_rect_3 = self.button_Rect.copy()
         self.jump_button_rect_3.center = (self.window.width/2 + 220, self.window.height/2 - 85)
         pygame.draw.rect(self.window.screen, '#d77467', self.jump_button_rect_3)
+        if self.window.get_keys()[0] == pygame.K_SPACE:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.jump_button_rect_3, 2)
+        
         up_text = pygame.font.SysFont('Cambria', 20)
         up_img = up_text.render('Space', True, '#000000')
         self.window.screen.blit(up_img, (self.jump_button_rect_3.x + 30, self.jump_button_rect_3.y + 1))
@@ -163,6 +172,9 @@ class Settings(Menu):
         self.left_button_rect = self.button_Rect.copy()
         self.left_button_rect.center = (self.window.width/2 + 160, self.window.height/2 - 35)
         pygame.draw.rect(self.window.screen, '#d77467', self.left_button_rect)
+        if self.window.get_keys()[1] == pygame.K_LEFT:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.left_button_rect, 2)
+
         left_text = pygame.font.SysFont('Cambria', 20)
         left_img = left_text.render('Left Arrow', True, '#000000')
         self.window.screen.blit(left_img, (self.left_button_rect.x + 8, self.left_button_rect.y + 1))
@@ -170,6 +182,9 @@ class Settings(Menu):
         self.left_button_rect_2 = self.button_Rect.copy()
         self.left_button_rect_2.center = (self.window.width/2 + 40, self.window.height/2 - 35)
         pygame.draw.rect(self.window.screen, '#d77467', self.left_button_rect_2)
+        if self.window.get_keys()[1] == pygame.K_a:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.left_button_rect_2, 2)
+
         left_text = pygame.font.SysFont('Cambria', 20)
         left_img = left_text.render('A', True, '#000000')
         self.window.screen.blit(left_img, (self.left_button_rect_2.x + 48, self.left_button_rect_2.y + 1))
@@ -182,6 +197,8 @@ class Settings(Menu):
         self.right_button_rect = self.button_Rect.copy()
         self.right_button_rect.center = (self.window.width/2 + 160, self.window.height/2 + 15)
         pygame.draw.rect(self.window.screen, '#d77467', self.right_button_rect)
+        if self.window.get_keys()[2] == pygame.K_RIGHT:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.right_button_rect, 2)
 
         right_text = pygame.font.SysFont('Cambria', 20)
         right_img = right_text.render('Right Arrow', True, '#000000')
@@ -190,6 +207,8 @@ class Settings(Menu):
         self.right_button_rect_2 = self.button_Rect.copy()
         self.right_button_rect_2.center = (self.window.width/2 + 40, self.window.height/2 + 15)
         pygame.draw.rect(self.window.screen, '#d77467', self.right_button_rect_2)
+        if self.window.get_keys()[2] == pygame.K_d:
+            pygame.draw.rect(self.window.screen, '#c73c2a', self.right_button_rect_2, 2)
 
         right_text = pygame.font.SysFont('Cambria', 20)
         right_img = right_text.render('D', True, '#000000')
@@ -221,18 +240,18 @@ class Settings(Menu):
                     self.update = [True, self.window.current_res]
                 
                 if self.jump_button_rect.collidepoint(event.pos):
-                    self.window.jump_key = pygame.K_UP
+                    self.window.set_keys([pygame.K_UP,self.window.get_keys()[1],self.window.get_keys()[2]])
                 elif self.jump_button_rect_2.collidepoint(event.pos):
-                    self.window.jump_key = pygame.K_w
+                    self.window.set_keys([pygame.K_w,self.window.get_keys()[1],self.window.get_keys()[2]])
                 elif self.jump_button_rect_3.collidepoint(event.pos):
-                    self.window.jump_key = pygame.K_SPACE
+                    self.window.set_keys([pygame.K_SPACE,self.window.get_keys()[1],self.window.get_keys()[2]])
                 elif self.left_button_rect.collidepoint(event.pos):
-                    self.window.left_key = pygame.K_LEFT
+                    self.window.set_keys([self.window.get_keys()[0],pygame.K_LEFT,self.window.get_keys()[2]])
                 elif self.left_button_rect_2.collidepoint(event.pos):
-                    self.window.left_key = pygame.K_a
+                    self.window.set_keys([self.window.get_keys()[0],pygame.K_a,self.window.get_keys()[2]])
                 elif self.right_button_rect.collidepoint(event.pos):
-                    self.window.right_key = pygame.K_RIGHT
+                    self.window.set_keys([self.window.get_keys()[0],self.window.get_keys()[1],pygame.K_RIGHT])
                 elif self.right_button_rect_2.collidepoint(event.pos):
-                    self.window.right_key = pygame.K_d  
+                    self.window.set_keys([self.window.get_keys()[0],self.window.get_keys()[1],pygame.K_d])
                 elif exit_rect.collidepoint(event.pos):
                     return 1

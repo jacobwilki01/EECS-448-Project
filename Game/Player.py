@@ -29,9 +29,9 @@ class Player:
         keys = pygame.key.get_pressed()
 
         self.direction.x = 0
-        if keys[pygame.K_RIGHT]:
+        if keys[self.window.right_key]:
             self.direction.x += 1
-        if keys[pygame.K_LEFT]:
+        if keys[self.window.left_key]:
             self.direction.x += -1
             
 
