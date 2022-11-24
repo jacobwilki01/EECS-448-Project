@@ -148,7 +148,6 @@ class Settings(Menu):
                         current_res = int((-3*collide + 3)/2)
                     else:
                         current_res += collide
-                    print(current_res)
                     self.window.update_screen_res(resolution_sizes[current_res])
                     self.update = [True, current_res]
                     
