@@ -3,8 +3,8 @@ from Settings import *
 from time import *
 
 class Player:
-    def __init__(self, surface, pos):
-        self.surface = surface
+    def __init__(self, window: Window, pos):
+        self.window = window
         self.rect = pygame.Rect(pos, (50, 100))
 
         self.direction = pygame.math.Vector2(0,0)
@@ -19,7 +19,7 @@ class Player:
         self.collide_Right = 0
         self.collide_Left = 0
 
-        self.pause_bg = pygame.Rect(0, 0, screen_Width, screen_Height)
+        self.pause_bg = pygame.Rect(0, 0, self.window.width, self.window.height)
         self.pause_button = pygame.Rect(0 , 0 , 200, 100)
 
     def jump(self):
@@ -75,38 +75,38 @@ class Player:
         self.rect.left += self.speed
 
     def pause(self):
-        self.surface.fill((255,255,255))
+        self.window.screen.fill((255,255,255))
         while self.paused:
             #draw background
-            pygame.draw.rect(self.surface, '#9b9b9b', self.pause_bg)
+            pygame.draw.rect(self.window.screen, '#9b9b9b', self.pause_bg)
 
             #draw title
             title_font = pygame.font.SysFont('Cambria', 100)
             title = title_font.render('Paused', True, (0,0,0))
             title_rect = title.get_rect()
-            title_rect.center = (screen_Width / 2, screen_Height / 2 - 200)
-            self.surface.blit(title, title_rect)
+            title_rect.center = (self.window.width / 2, self.window.height / 2 - 200)
+            self.window.screen.blit(title, title_rect)
 
             #draw buttons
             button_text = pygame.font.SysFont('Cambria', 30)
 
             self.restart_button = self.pause_button.copy()
-            self.restart_button.center = (screen_Width/5 , (screen_Height/4)*3)
-            pygame.draw.rect(self.surface, '#d77467', self.restart_button)
+            self.restart_button.center = (self.window.width/5 , (self.window.height/4)*3)
+            pygame.draw.rect(self.window.screen, '#d77467', self.restart_button)
             text = button_text.render('Resume', True, (0,0,0))
-            self.surface.blit(text, (self.restart_button.x + 50, self.restart_button.y + 30))
+            self.window.screen.blit(text, (self.restart_button.x + 50, self.restart_button.y + 30))
 
             self.settings_button = self.pause_button.copy()
-            self.settings_button.center = (screen_Width/2 , (screen_Height/4)*3)
-            pygame.draw.rect(self.surface, '#d77467', self.settings_button)
+            self.settings_button.center = (self.window.width/2 , (self.window.height/4)*3)
+            pygame.draw.rect(self.window.screen, '#d77467', self.settings_button)
             text = button_text.render('Settings', True, (0,0,0))
-            self.surface.blit(text, (self.settings_button.x + 50, self.settings_button.y + 30))
+            self.window.screen.blit(text, (self.settings_button.x + 50, self.settings_button.y + 30))
 
             self.quit_button = self.pause_button.copy()
-            self.quit_button.center = ((screen_Width/5)*4 , (screen_Height/4)*3)
-            pygame.draw.rect(self.surface, '#d77467', self.quit_button)
+            self.quit_button.center = ((self.window.width/5)*4 , (self.window.height/4)*3)
+            pygame.draw.rect(self.window.screen, '#d77467', self.quit_button)
             text = button_text.render('Quit', True, (0,0,0))
-            self.surface.blit(text, (self.quit_button.x + 70, self.quit_button.y + 30))
+            self.window.screen.blit(text, (self.quit_button.x + 70, self.quit_button.y + 30))
 
             pygame.display.update()
 
@@ -117,7 +117,7 @@ class Player:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.restart_button.collidepoint(event.pos):
                         self.paused = False
-                        self.surface.fill((0,0,0))
+                        self.window.screen.fill((0,0,0))
                         break
                     if self.settings_button.collidepoint(event.pos):
                         return (True, 'settings')
@@ -127,5 +127,5 @@ class Player:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.paused = False
-                        self.surface.fill((0,0,0))
+                        self.window.screen.fill((0,0,0))
                         break
