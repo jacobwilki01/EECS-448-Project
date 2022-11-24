@@ -35,7 +35,7 @@ class Player:
             self.direction.x += -1
             
 
-        if keys[pygame.K_UP] and self.collide_Floor:
+        if keys[self.window.jump_key] and self.collide_Floor:
             self.jump()
 
         if keys[pygame.K_ESCAPE]:

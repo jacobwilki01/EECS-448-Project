@@ -74,11 +74,11 @@ class Menu:
 class Settings(Menu):
     def __init__(self, window: Window, current_res):
         super().__init__(window)
-        self.button_Rect = pygame.Rect(0 , 0 , 100, 25)
+        self.button_Rect = pygame.Rect(0 , 0 , 110, 25)
         self.cursor = pygame.Rect(0, 0, 5, 15)
         self.line = pygame.Rect(0, 0, 300, 2)
 
-        self.update = [False, current_res]
+        self.update = [False, self.window.current_res]
         
 
     def run(self,events):
@@ -95,7 +95,7 @@ class Settings(Menu):
         #Draw Screen Resolution Info
         screenRes_text = pygame.font.SysFont('Cambria', 25)
         img = screenRes_text.render('Screen Resolution:', True, '#000000')
-        self.window.screen.blit(img, (self.window.width/4 - 100, self.window.height/2 - 150))
+        self.window.screen.blit(img, (self.window.width/2 - 170, self.window.height/2 - 150))
 
         #Draw Screen Resolution Menu
         resolution_sizes = [(800,600),(1024,768),(1280,720),(1920,1080)]
@@ -103,19 +103,22 @@ class Settings(Menu):
 
         self.screenRes_rect = self.button_Rect.copy()
         #self.screenRes_rect.width += 10*current_res
-        self.screenRes_rect.center = (self.window.width/4 + 190, self.window.height/2 - 135)
+        self.screenRes_rect.center = (self.window.width/2 + 120, self.window.height/2 - 135)
         pygame.draw.rect(self.window.screen, '#d77467', self.screenRes_rect)
 
         screenRes_text = pygame.font.SysFont('Cambria', 20)
-        res_img = screenRes_text.render(f'{self.window.height}x{self.window.width}', True, '#000000')
-        self.window.screen.blit(res_img, (self.screenRes_rect.x + 10, self.screenRes_rect.y + 2))
+        res_img = screenRes_text.render(f'{self.window.width}x{self.window.height}', True, '#000000')
+
+        text_center = ((len(str(self.window.width)) + len(str(self.window.height))) - 6) * 3.5
+
+        self.window.screen.blit(res_img, (self.screenRes_rect.x + 15 - text_center, self.screenRes_rect.y + 2))
         
         #Screen Resolution Arrows
         right_arrow = pygame.image.load('graphics/menu_arrow.png')
         right_arrow.convert()
 
         right_rect = right_arrow.get_rect()
-        right_rect.center = (self.window.width/4 + 254, self.window.height/2 - 135)
+        right_rect.center = (self.window.width/2 + 189, self.window.height/2 - 135)
         pygame.draw.rect(self.window.screen, '#000000', right_rect)
         self.window.screen.blit(right_arrow, right_rect)
 
@@ -123,9 +126,36 @@ class Settings(Menu):
         left_arrow.convert()
 
         left_rect = left_arrow.get_rect()
-        left_rect.center = (self.window.width/4 + 125, self.window.height/2 - 135)
+        left_rect.center = (self.window.width/2 + 50, self.window.height/2 - 135)
         pygame.draw.rect(self.window.screen, '#000000', left_rect)
         self.window.screen.blit(left_arrow, left_rect)
+
+        #Draw Jump Button Key Button
+        jump_button_text = pygame.font.SysFont('Cambria', 25)
+        jump_button_img = jump_button_text.render('Jump Key:', True, '#000000')
+        self.window.screen.blit(jump_button_img, (self.window.width/2 - 170, self.window.height/2 - 100))
+
+        self.jump_button_rect = self.button_Rect.copy()
+        self.jump_button_rect.center = (self.window.width/2 + 120, self.window.height/2 - 85)
+        pygame.draw.rect(self.window.screen, '#d77467', self.jump_button_rect)
+
+        #Draw Left Button Key Button
+        left_button_text = pygame.font.SysFont('Cambria', 25)
+        left_button_img = left_button_text.render('Left Key:', True, '#000000')
+        self.window.screen.blit(left_button_img, (self.window.width/2 - 170, self.window.height/2 - 50))
+
+        self.left_button_rect = self.button_Rect.copy()
+        self.left_button_rect.center = (self.window.width/2 + 120, self.window.height/2 - 35)
+        pygame.draw.rect(self.window.screen, '#d77467', self.left_button_rect)
+
+        #Draw Right Button Key Button
+        right_button_text = pygame.font.SysFont('Cambria', 25)
+        right_button_img = right_button_text.render('Right Key:', True, '#000000')
+        self.window.screen.blit(right_button_img, (self.window.width/2 - 170, self.window.height/2))
+
+        self.right_button_rect = self.button_Rect.copy()
+        self.right_button_rect.center = (self.window.width/2 + 120, self.window.height/2 + 15)
+        pygame.draw.rect(self.window.screen, '#d77467', self.right_button_rect)
 
         #exit rectangle
         exit = pygame.image.load('graphics/exit.png')
@@ -144,12 +174,12 @@ class Settings(Menu):
                 left_collide = -(left_rect.collidepoint(event.pos))
                 collide = right_collide + left_collide
                 if collide:
-                    if current_res == (3*collide + 3)/2:
-                        current_res = int((-3*collide + 3)/2)
+                    if self.window.current_res == (3*collide + 3)/2:
+                        self.window.current_res = int((-3*collide + 3)/2)
                     else:
-                        current_res += collide
-                    self.window.update_screen_res(resolution_sizes[current_res])
-                    self.update = [True, current_res]
+                        self.window.current_res += collide
+                    self.window.update_screen_res(resolution_sizes[self.window.current_res])
+                    self.update = [True, self.window.current_res]
                     
                 elif exit_rect.collidepoint(event.pos):
                     return 1

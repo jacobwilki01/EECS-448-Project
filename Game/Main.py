@@ -16,6 +16,15 @@ window = Window()
 try:
     file = open("saves/settings.txt", "r")
     window.update_screen_res((int(file.readline()), int(file.readline())))
+    window.current_res = int(file.readline())
+    file.close()
+except:
+    pass
+
+#Try loading user keybinds
+try:
+    file = open("saves/keybinds.txt", "r")
+    window.set_keys([int(file.readline()), int(file.readline()), int(file.readline())])
     file.close()
 except:
     pass
@@ -25,7 +34,7 @@ clock = pygame.time.Clock()
 
 #Game Initialization
 main_Menu = Menu(window)
-settings_Menu = Settings(window, 0)
+settings_Menu = Settings(window, window.current_res)
 
 #Misc. Extra Variables
 has_died = True
@@ -41,6 +50,7 @@ while running:
             running = False
             world.stats.write_save_file()
             window.save_settings()
+            window.save_keybinds()
             exit()
     
     if has_died:
