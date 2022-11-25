@@ -86,7 +86,7 @@ while running:
 
         if settings:
             if level_save != None:
-                window.game_state = 1
+                window.game_state = 2
             else:
                 window.game_state = 0
 

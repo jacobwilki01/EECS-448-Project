@@ -50,7 +50,7 @@ class Player:
         keys = pygame.key.get_pressed()
 
         self.direction.y = 0
-        if keys[pygame.K_RIGHT]:
+        if keys[self.window.right_key]:
             self.direction.y -= 5
 
     def apply_gravity(self):
