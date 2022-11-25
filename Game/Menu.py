@@ -98,7 +98,7 @@ class Settings(Menu):
 
         #Draw Screen Resolution Menu
         resolution_sizes = [(800,600),(1024,768),(1280,720),(1920,1080)]
-        current_res = self.update[1]
+        self.window.current_res = self.update[1]
 
         self.screenRes_rect = self.button_Rect.copy()
         #self.screenRes_rect.width += 10*current_res

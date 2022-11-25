@@ -12,6 +12,8 @@ pygame.display.set_icon(pygame.image.load("graphics/window_icon.png"))
 
 window = Window()
 
+level_files = ['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt','levels/world1-level5.txt']
+
 #Try loading user settings
 try:
     file = open("saves/settings.txt", "r")
@@ -54,7 +56,7 @@ while running:
             exit()
     
     if has_died:
-        world = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt'], window)
+        world = World(level_files, window)
         #world = World(['levels/disappearingtest.txt'],screen)
         has_died = False
 
@@ -81,7 +83,7 @@ while running:
             #if so re-initializes all menus and levels to the new window
             main_Menu = Menu(window)
             settings_Menu = Settings(window, current_res)
-            world = World(['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt'], window)
+            world = World(level_files, window)
             #settings_Menu.update = False
 
         if settings:

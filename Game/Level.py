@@ -118,6 +118,11 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == '%': #Level 5 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('%', tile_Size, x, y)
+                    self.tiles.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -139,7 +144,7 @@ class Level:
             if player.rect.colliderect(tile):
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
-                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%': continue
 
                 if tile.type == 'W':
                     player.get_up_input()
@@ -176,7 +181,7 @@ class Level:
 
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
-                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%': continue
 
                 if tile.type == 'B':
                     self.kill()
@@ -301,27 +306,27 @@ class Level:
                 pygame.draw.rect(self.window.screen, '#363636', tile.rect)
             
             #Features
-            elif tile.type == 'L':
+            elif tile.type == 'L': #Run-Through Wall
                 pygame.draw.rect(self.window.screen, '#222222', tile.rect)
-            elif tile.type == 'W':
+            elif tile.type == 'W': #Climbable Wall
                 pygame.draw.rect(self.window.screen, '#919191', tile.rect)
-            elif tile.type == 'B':
+            elif tile.type == 'B': #Lava
                 pygame.draw.rect(self.window.screen, '#ff0000', tile.rect)
-            elif tile.type == 'P':
+            elif tile.type == 'P': #Portal
                 pygame.draw.rect(self.window.screen, '#59bfff', tile.rect)
-            elif tile.type == 'R':
+            elif tile.type == 'R': #Portal Exit
                 pygame.draw.rect(self.window.screen, '#ff8e59', tile.rect)
-            elif tile.type == 'M':
+            elif tile.type == 'M': #Super Jump
                 pygame.draw.rect(self.window.screen, '#33ff33', tile.rect)
-            elif tile.type == 'V':
+            elif tile.type == 'V': #Disappearing Tile
                 pygame.draw.rect(self.window.screen, '#cce6ff', tile.rect)
             
             #Items
-            elif tile.type == 'A':
+            elif tile.type == 'A': #5 Coin
                 pygame.draw.rect(self.window.screen, '#59bfff', tile.rect)
-            elif tile.type == 'C':
+            elif tile.type == 'C': #1 Coin
                 pygame.draw.rect(self.window.screen, '#f7c65c', tile.rect)
-            elif tile.type == '1':
+            elif tile.type == '1': #1-Up
                 pygame.draw.rect(self.window.screen, '#00c213', tile.rect)
 
             #Messages

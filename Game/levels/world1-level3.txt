@@ -1,8 +1,11 @@
-                                 AAAAA
-                        WXXXX   XXXXXXX 
-                A       WXXXX       XXX 
-               XXX   $  WXXXX       XXX
- XXXX     C             WXXXX  CC G XXX 
- XXXX    XXX            WXXXXXXXXXXXXXX 
- XXXXXXXXXXXXXXXBBBBXXXXXXXXXXXXXXXXXXX 
- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                                       X
+                                       X
+                 1               AAAAA X
+                XXX    CWXXXX   XXXXXXXXXXXXXXXX
+                       CWXXXX        
+ XXX                $  CWXXXX   C C C C C C C C          CC
+XXXXX     C            CWXXXX  C C C C C C C C C               G
+XXXXX A  XXX           CWXXXXXXXXXXXXXXXXXXXXXXX     WXXBBBBXXXXX
+XXXXXXXXXXXXXXXXBBBXXXXXXXXXXXXXXXXXXXX    1         WXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   AAA        WXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
