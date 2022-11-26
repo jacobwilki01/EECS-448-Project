@@ -8,6 +8,7 @@ class World:
         self.window = window
         self.stats = World_Stats()
         self.levels = []
+        self.backgrounds = ['background_day.png','background_sunset.png','background_night.png']
 
         for file in files:
             self.levels.append(self.gen_levels(file))
@@ -19,8 +20,8 @@ class World:
             lines.append(line)
         
         opened.close()
-        
-        return Level(self.window, lines, (128,0), self.stats)
+
+        return Level(self.window, lines, (128,0), self.stats, self.backgrounds[len(self.levels) // 3])
         
     def run(self):
         if self.stats.level < len(self.levels):

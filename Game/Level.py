@@ -8,7 +8,7 @@ from Settings import *
 from time import *
 
 class Level:
-    def __init__(self, window: Window, layout, start_Pos, stats):
+    def __init__(self, window: Window, layout, start_Pos, stats, background):
         self.window = window
         self.stats = stats
 
@@ -18,7 +18,7 @@ class Level:
         for i in range(-1,5):
             backround_Rect_temp = backround_Rect.copy()
             backround_Rect_temp.left = backround_Rect.width * i
-            self.backround_sprite.append(Sprite(['backround_default.png'], backround_Rect_temp))
+            self.backround_sprite.append(Sprite([background], backround_Rect_temp))
 
         backround_Rect.topleft = (0,0)
         self.backround_Rect = backround_Rect
@@ -129,6 +129,31 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == '%': #Level 5 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('%', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '^': #Level 6 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('^', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '&': #Level 7 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('&', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '*': #Level x (First Enemy) Message 
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('*', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '(': #Level x (Second Enemy) Message 
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('(', tile_Size, x, y)
+                    self.tiles.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -150,7 +175,7 @@ class Level:
             if player.rect.colliderect(tile):
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
-                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#': continue
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%' or tile.type == '^' or tile.type == '&' or tile.type == '*' or tile.type == '(': continue
 
                 if tile.type == 'W':
                     player.get_up_input()
@@ -301,6 +326,14 @@ class Level:
         self.window.screen.blit(coins_text, (self.window.width-145, 10))
         self.window.screen.blit(score_text, (self.window.width-145, 40))
 
+    def check_score(self):
+        if self.stats.score > 100000:
+            self.stats.update_lives(1)
+            self.stats.update_score(-100000)
+        if self.stats.coins > 100:
+            self.stats.update_lives(1)
+            self.stats.update_coins(-100)
+
     def run(self):
         pygame.draw.rect(self.window.screen, '#ffffff', self.backround_Rect)
         for sprite in self.backround_sprite:
@@ -313,47 +346,62 @@ class Level:
             self.stats.reset()
             return (True, 'dead')
 
-        self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
-
         for tile in self.tiles:
             #Messages
             if tile.type == '`': #Level 1 (Run-Through Walls)
-                #pygame.draw.rect(self.window.screen, '#000000', tile.rect)
                 message = message_font.render('Run Fast!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_1_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_1_surface.fill('#9b9b9b')
+                message_1_surface.blit(message, (5,5))
+                self.window.screen.blit(message_1_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '@': #Level 2 (Lava)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Jump High!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_2_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_2_surface.fill('#9b9b9b')
+                message_2_surface.blit(message, (5,5))
+                self.window.screen.blit(message_2_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '$': #Level 3 (Wall Climb)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Climb Up!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_3_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_3_surface.fill('#9b9b9b')
+                message_3_surface.blit(message, (5,5))
+                self.window.screen.blit(message_3_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '#': #Level 4 (Giant Gap)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Jump as Far as You Can!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
-            #------Below Not Implemented------#
+                message_4_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_4_surface.fill('#9b9b9b')
+                message_4_surface.blit(message, (5,5))
+                self.window.screen.blit(message_4_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '%': #Level 5 (Teleporters)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Touch to Teleport!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_5_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_5_surface.fill('#9b9b9b')
+                message_5_surface.blit(message, (5,5))
+                self.window.screen.blit(message_5_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '^': #Level 6 (Super Jump)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Jump Higher!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_6_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_6_surface.fill('#9b9b9b')
+                message_6_surface.blit(message, (5,5))
+                self.window.screen.blit(message_6_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '&': #Level 7 (Disappearing Platforms)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render("Don't Stay Too Long!", True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_7_surface = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_7_surface.fill('#9b9b9b')
+                message_7_surface.blit(message, (5,5))
+                self.window.screen.blit(message_7_surface, (tile.rect.x, tile.rect.y))
             elif tile.type == '*': #Level x (First Enemy)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Avoid the Enemies!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_first_enemy = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_first_enemy.fill('#9b9b9b')
+                message_first_enemy.blit(message, (5,5))
+                self.window.screen.blit(message_first_enemy, (tile.rect.x, tile.rect.y))
             elif tile.type == '(': #Level x (Second Enemy)
-                #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Jump on their Heads!', True, (0,0,0))
-                self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+                message_second_enemy = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_second_enemy.fill('#9b9b9b')
+                message_second_enemy.blit(message, (5,5))
+                self.window.screen.blit(message_second_enemy, (tile.rect.x, tile.rect.y))
             #Everyother type of tile
             else:
                 tile.draw(self.window.screen)
@@ -361,6 +409,8 @@ class Level:
         for tile in self.goal:
             if tile.type == 'G':
                 tile.draw(self.window.screen)
+
+        self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
 
         update = self.player.update()
         if type(update) == tuple:
@@ -378,6 +428,7 @@ class Level:
 
         #pygame.draw.rect(self.window.screen, '#c73c3e', self.player.rect)
         self.player.draw(self.window.screen)
+        self.check_score()
 
         if self.check_Complete():
             self.player.speed = 0

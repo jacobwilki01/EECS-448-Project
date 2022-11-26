@@ -8,7 +8,7 @@ from time import *
 #Pygame setup
 pygame.init()
 pygame.display.set_caption('Alpha Speed')
-pygame.display.set_icon(pygame.image.load("graphics/window_icon.png"))
+pygame.display.set_icon(pygame.image.load("graphics/player_idle.png"))
 
 window = Window()
 
