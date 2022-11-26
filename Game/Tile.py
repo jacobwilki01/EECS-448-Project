@@ -40,6 +40,7 @@ class Tile():
     def draw(self, screen):
         self.sprite.draw(screen)
 
+    #Initializes the various tiles to their respective images
     def tile_image_initialization(self):
         #Basics
                 if self.type == 'X': #Floor

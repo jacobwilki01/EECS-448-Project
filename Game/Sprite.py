@@ -14,18 +14,10 @@ class Sprite():
             for name in image_names:
                 image = pygame.image.load('graphics/' + name).convert()
                 image = pygame.transform.scale(image, (rect.width, rect.height))
-                self.states[name] = image
+                self.states[name] = image      
 
-    #provide just an image and an x, y positon and the image will be placed within
-    #a same size rect at the x, y position
-    '''
-    def __init__(self, image, x, y):
-        image = pygame.image.load(image).convert()
-        self.rect = image.get_rect()
-        self.rect.topleft = (x, y)
-    '''
-        
-
+    #Draws the sprite according to the given state
+    #Note: A state is only needed if more than 1 states are possible
     def draw(self, screen, state=None):
         if type(self.states) == dict:
             screen.blit(self.states[state], self.rect.topleft)
