@@ -297,6 +297,8 @@ class Level:
         self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
 
         for tile in self.tiles:
+
+            '''
             if tile.type == 'X':
                 pygame.draw.rect(self.window.screen, '#363636', tile.rect)
             
@@ -323,9 +325,10 @@ class Level:
                 pygame.draw.rect(self.window.screen, '#f7c65c', tile.rect)
             elif tile.type == '1':
                 pygame.draw.rect(self.window.screen, '#00c213', tile.rect)
+            '''
 
             #Messages
-            elif tile.type == '`': #Level 1 (Run-Through Walls)
+            if tile.type == '`': #Level 1 (Run-Through Walls)
                 pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Run Fast!', True, (0,0,0))
                 self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
@@ -362,6 +365,8 @@ class Level:
                 pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
                 message = message_font.render('Jump on their Heads!', True, (0,0,0))
                 self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
+            else:
+                tile.draw(self.window.screen)
 
         for tile in self.goal:
             if tile.type == 'G':

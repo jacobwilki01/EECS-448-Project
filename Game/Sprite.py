@@ -5,12 +5,16 @@ class Sprite():
     #note the list of images should contain the file name of the image in graphics
     def __init__(self, image_names : list, rect: pygame.Rect):
         self.rect = rect
-        self.states = dict()
+        self.states = None
 
-        for name in image_names:
-            image = pygame.image.load('graphics/' + name).convert()
-            image = pygame.transform.scale(image, (rect.width, rect.height))
-            self.states[name] = image
+        if len(image_names) == 1:
+            self.states = image_names[0]
+        else: 
+            self.states = dict()
+            for name in image_names:
+                image = pygame.image.load('graphics/' + name).convert()
+                image = pygame.transform.scale(image, (rect.width, rect.height))
+                self.states[name] = image
 
     #provide just an image and an x, y positon and the image will be placed within
     #a same size rect at the x, y position
@@ -22,5 +26,8 @@ class Sprite():
     '''
         
 
-    def draw(self, screen, state):
-        screen.blit(self.states[state], self.rect.topleft)
+    def draw(self, screen, state=None):
+        if type(self.states) == dict:
+            screen.blit(self.states[state], self.rect.topleft)
+        else:
+            screen.blit(self.states, self.rect.topleft)

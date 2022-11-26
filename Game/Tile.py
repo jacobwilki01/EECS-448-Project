@@ -1,4 +1,5 @@
 import pygame
+from Sprite import Sprite
 
 class Tile():
     def __init__(self, type, size, x, y, p=None):
@@ -10,6 +11,9 @@ class Tile():
         self.x = x
         self.y = y
 
+        self.sprite = None
+        self.tile_image_initialization()
+
         if self.type == 'P':
             self.make_teleporter()
         elif self.type == 'R' and p != None:
@@ -18,6 +22,7 @@ class Tile():
         if self.type == 'V':
             self.been_touched = False
             self.timer = 0
+
 
     def update(self, shift):
         self.rect.topleft += shift
@@ -31,3 +36,110 @@ class Tile():
     
     def __str__(self):
         return f"({self.x}, {self.y})"
+
+    def draw(self, screen):
+        self.sprite.draw(screen)
+
+    def tile_image_initialization(self):
+        #Basics
+                if self.type == 'X': #Floor
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#363636')
+                    self.sprite.states = temp_surface
+
+                elif self.type == 'G': #Goal
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#9ae7c0')
+                    self.sprite.states = temp_surface
+                
+                #Features
+                elif self.type == 'L': #Run-Through Wall
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#222222')
+                    self.sprite.states = temp_surface
+                elif self.type == 'W': #Wall Climb
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#919191')
+                    self.sprite.states = temp_surface
+                elif self.type == 'B': #Lava
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#ff0000')
+                    self.sprite.states = temp_surface
+                elif self.type == 'P': #Portal Entrance
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#59bfff')
+                    self.sprite.states = temp_surface
+                elif self.type == 'R': #Portal Exit
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#ff8e59')
+                    self.sprite.states = temp_surface
+                elif self.type == 'M': #Super Jump
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#33ff33')
+                    self.sprite.states = temp_surface
+                elif self.type == 'V': #Disappearing Platform
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#cce6ff')
+                    self.sprite.states = temp_surface
+
+                #Items (Coins / 1-Ups)
+                elif self.type == 'A': #5 Coin
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#59bfff')
+                    self.sprite.states = temp_surface
+                elif self.type == 'C': #1 Coin
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#f7c65c')
+                    self.sprite.states = temp_surface
+                elif self.type == '1': #1-Up
+                    image = ['missing.png']
+                    self.sprite = Sprite(image, self.rect)
+
+                    #Remove the below code when we have an image for this tile
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#00c213')
+                    self.sprite.states = temp_surface
