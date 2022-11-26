@@ -8,7 +8,9 @@ class Sprite():
         self.states = None
 
         if len(image_names) == 1:
-            self.states = image_names[0]
+            image = pygame.image.load('graphics/' + image_names[0]).convert()
+            image = pygame.transform.scale(image, (rect.width, rect.height))
+            self.states = image
         else: 
             self.states = dict()
             for name in image_names:
