@@ -3,7 +3,7 @@
 import pygame
 from Sprite import Sprite
 from Player import Player
-from Tile import Tile
+from Tile import Tile, Enemy
 from Settings import *
 from time import *
 
@@ -129,12 +129,23 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
                     self.tiles.append(tile)
+
+                #Enemy Tiles
+                elif valX == 'E': #Basic Enemy
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Enemy('E', tile_Size, x, y)
+                    self.enemies.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
                 for tile2 in self.tiles:
                     if tile2.type == "P":
                         tile2.goal = tile
+
+        for enemy in self.enemies:
+            enemy.set_collision(self.tiles)
+            print(enemy.bound_left, enemy.bound_right)
 
         #Centers Camera
         shift = pygame.math.Vector2( (self.window.width/2 - self.start_pos[0]), 0)
@@ -242,6 +253,9 @@ class Level:
         for tile in self.goal:
             tile.update(shift)
 
+        for enemy in self.enemies:
+            enemy.update(shift)
+
         for sprite in self.backround_sprite:
             sprite.rect.x += int(shift.x / 4)
 
@@ -344,7 +358,7 @@ class Level:
                 self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
             elif tile.type == '&': #Level 7 (Disappearing Platforms)
                 #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
-                message = message_font.render("Don't Stay Too Long!", True, (0,0,0))
+                message = message_font.render("Don't Stay Too Long!", True, (0,0,0)) 
                 self.window.screen.blit(message, (tile.rect.x, tile.rect.y))
             elif tile.type == '*': #Level x (First Enemy)
                 #pygame.draw.rect(self.window.screen, '#cdcdcd', tile.rect)
@@ -361,6 +375,11 @@ class Level:
         for tile in self.goal:
             if tile.type == 'G':
                 tile.draw(self.window.screen)
+
+        for enemy in self.enemies:
+            enemy.draw(self.window.screen)
+            enemy.move()
+
 
         update = self.player.update()
         if type(update) == tuple:
