@@ -93,18 +93,18 @@ class Level:
 
                 #Items (Coins / 1-Ups)
                 elif valX == 'A': #5 Coin
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    x = (indX * (tile_Size)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('A', tile_Size/4, x, y)
                     self.tiles.append(tile)
                 elif valX == 'C': #1 Coin
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    x = (indX * (tile_Size)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('C', tile_Size/4, x, y)
                     self.tiles.append(tile)
                 elif valX == '1': #1-Up
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    x = (indX * (tile_Size)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('1', tile_Size/4, x, y)
                     self.tiles.append(tile)
                 
@@ -288,13 +288,13 @@ class Level:
     def draw_stats(self,lives,coins,score):
         font = pygame.font.SysFont('Cambria', 25)
 
-        lives_text = font.render('Lives: ' + str(lives), True, (0,0,0))
-        coins_text = font.render('Coins: ' + str(coins), True, (0,0,0))
-        score_text = font.render('Score: ' + str(score), True, (0,0,0))
+        lives_text = font.render('Lives: ' + str(lives), True, (255,255,255))
+        coins_text = font.render('Coins: ' + str(coins), True, (255,255,255))
+        score_text = font.render('Score: ' + str(score), True, (255,255,255))
         
         font = pygame.font.SysFont('Cambria', 25, bold=True)
 
-        level_text = font.render('Level ' + str(self.stats.level + 1), True, (0,0,0))
+        level_text = font.render('Level ' + str(self.stats.level + 1), True, (255,255,255))
 
         self.window.screen.blit(level_text, (10, 10))
         self.window.screen.blit(lives_text, (10, 40))

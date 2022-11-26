@@ -1,3 +1,5 @@
 Game/__pycache__
-Game/saves/*
+Game/saves/keybinds.txt
+Game/saves/save.txt
+Game/saves/settings.txt
 Game/.DS_Store
