@@ -60,7 +60,7 @@ class Menu:
 
         #Check for button click
         for event in events:
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.new_button.collidepoint(event.pos):
                     return 1
                 elif self.load_button.collidepoint(event.pos):
@@ -225,7 +225,7 @@ class Settings(Menu):
 
 
         for event in events:
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 #Below is some fun boolean math to prevent the need for multiple if statements
                 #Ask Ian for clarification if needed
                 right_collide = right_rect.collidepoint(event.pos)
