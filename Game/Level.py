@@ -381,7 +381,8 @@ class Level:
         #pygame.draw.line(self.window.screen, '#ffffff', (0, 536), (self.window.width, 536))
         #pygame.draw.line(self.window.screen, '#ffffff', (self.window.width - self.window.width / 3, 0), (self.window.width - self.window.width / 3, self.window.hieght))
 
-        pygame.draw.rect(self.window.screen, '#c73c3e', self.player.rect)
+        #pygame.draw.rect(self.window.screen, '#c73c3e', self.player.rect)
+        self.player.draw(self.window.screen)
 
         if self.check_Complete():
             self.player.speed = 0

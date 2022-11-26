@@ -1,11 +1,15 @@
 import pygame
 from Settings import *
+from Sprite import *
 from time import *
 
 class Player:
     def __init__(self, window: Window, pos):
         self.window = window
-        self.rect = pygame.Rect(pos, (50, 100))
+
+        self.rect = pygame.Rect(pos, (50, 50))
+        image_names = [ 'player_left.png', 'player_idle.png', 'player_right.png' ]
+        self.sprite = Sprite(image_names, self.rect)
 
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 0
@@ -21,6 +25,14 @@ class Player:
 
         self.pause_bg = pygame.Rect(0, 0, self.window.width, self.window.height)
         self.pause_button = pygame.Rect(0 , 0 , 200, 100)
+
+    def draw(self, screen):
+        if self.direction.x < 0:
+            self.sprite.draw(screen, 'player_left.png')
+        elif self.direction.x > 0:
+            self.sprite.draw(screen, 'player_right.png')
+        else:
+            self.sprite.draw(screen, 'player_idle.png')
 
     def jump(self):
         self.direction.y = self.jump_Speed
