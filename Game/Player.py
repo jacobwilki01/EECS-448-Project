@@ -77,12 +77,10 @@ class Player:
         
         if abs(self.speed) < self.max_Speed or self.speed * self.direction.x < 0:
             self.speed += self.acc * self.direction.x
-            print("1: ", self.acc * self.direction.x)
         if self.direction.x == 0 or self.speed * self.direction.x < 0:
             if abs(self.speed) < .5: self.speed = 0
             sign = -1 if self.speed > 0 else 1
             self.speed += self.acc * sign
-            print("2:", self.acc * sign)
 
         self.speed = round(self.speed, 1)
 
