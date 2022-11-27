@@ -203,7 +203,6 @@ class Enemy_Sword(Tile):
         self.direction = pygame.Vector2(0,0)
         self.cooldown = 0
         self.cooldown_time = 100
-        self.shoot_range = 400
         self.sword_range = 150
 
         image = ['missing.png']
@@ -267,23 +266,3 @@ class Enemy_Sword(Tile):
                     self.velocity.y = 0
 
         
-
-
-class Bullet(Tile):
-    def __init__(self, type, size, x, y):
-        super().__init__(type, size, x, y)
-        self.speed = 6
-        self.direction = pygame.math.Vector2(0,0)
-
-        image = ['missing.png']
-        self.sprite = Sprite(image, self.rect)
-        #Remove the below code when we have an image for this
-        temp_surface = pygame.Surface(self.rect.size)
-        temp_surface.fill('#f44336')
-        self.sprite.states = temp_surface
-
-    def update(self, shift):
-        super().update(shift)
-
-    def move(self):
-        self.rect.topleft += self.speed * self.direction

@@ -4,5 +4,5 @@
  XX    XXXX            XXXX      A          C   L
  XX                    L             XX  XXXXXXXX
  XXXX   A A A       `  L      XXXXXX        A   L     C   G
- XXXX  C C C C  S      L      X            AAA  L     C  XXX
+ XXXX  C C C C         L      X            AAA  L     C  XXX
  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX        XXXXXXXXXX    XXXXXXXX
