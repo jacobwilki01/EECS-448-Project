@@ -19,8 +19,8 @@ class World:
             lines.append(line)
         
         opened.close()
-        
-        return Level(self.window, lines, (128,0), self.stats)
+
+        return Level(self.window, lines, (128,0), self.stats, 'background_night.png')
         
     def run(self):
         if self.stats.level < len(self.levels):
@@ -37,4 +37,4 @@ class World:
                 self.stats.update_level(1)
         else:
             self.stats.update_level(-self.stats.level)
-            return (True,'exception')
+            return (True,'finished')
