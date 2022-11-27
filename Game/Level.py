@@ -24,7 +24,7 @@ class Level:
         self.backround_Rect = backround_Rect
 
         self.tiles = []
-        self.removed_coins = []
+        self.items = []
         self.goal = []
         self.enemies = []
     
@@ -96,17 +96,17 @@ class Level:
                     x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
                     y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('A', tile_Size/4, x, y)
-                    self.tiles.append(tile)
+                    self.items.append(tile)
                 elif valX == 'C': #1 Coin
                     x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
                     y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('C', tile_Size/4, x, y)
-                    self.tiles.append(tile)
+                    self.items.append(tile)
                 elif valX == '1': #1-Up
                     x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
                     y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
                     tile = Tile('1', tile_Size/4, x, y)
-                    self.tiles.append(tile)
+                    self.items.append(tile)
                 
                 #message tiles
                 elif valX == '`': #Level 1 Message
@@ -145,7 +145,6 @@ class Level:
 
         for enemy in self.enemies:
             enemy.set_collision(self.tiles)
-            print(enemy.bound_left, enemy.bound_right)
 
         #Centers Camera
         shift = pygame.math.Vector2( (self.window.width/2 - self.start_pos[0]), 0)
@@ -166,25 +165,27 @@ class Level:
                 if tile.type == 'W':
                     player.get_up_input()
 
-                if tile.type == 'C' or tile.type == 'A':
-                    if tile.type == 'A':
-                        self.stats.update_coins(1)
-                        self.stats.update_score(500)
-                    else:
-                        self.stats.update_coins(1)
-                        self.stats.update_score(100)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == '1':
-                    self.stats.update_lives(1)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif self.player.speed < 0:
+                if self.player.speed < 0:
                     player.rect.left = tile.rect.right
                     self.player.speed = 0
                 elif self.player.speed > 0:
                     player.rect.right = tile.rect.left
                     self.player.speed = 0
+
+        for item in self.items:
+            if player.rect.colliderect(item):
+                if item.type == 'C' or tile.type == 'A':
+                    if item.type == 'A':
+                        self.stats.update_coins(1)
+                        self.stats.update_score(500)
+                    else:
+                        self.stats.update_coins(1)
+                        self.stats.update_score(100)
+                    self.items.remove(item)
+                elif item.type == '1':
+                    self.stats.update_lives(1)
+                    self.items.remove(item)
+                
 
     def vertical_movement_collision(self):
         player = self.player
@@ -215,21 +216,8 @@ class Level:
                     if tile.timer > 25:
                         self.tiles.remove(tile)
 
-                if tile.type == 'C' or tile.type == 'A':
-                    if tile.type == 'A':
-                        self.stats.update_coins(1)
-                        self.stats.update_score(500)
-                    else:
-                        self.stats.update_coins(1)
-                        self.stats.update_score(100)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == '1':
-                    self.stats.update_lives(1)
-                    self.stats.update_score(1000)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif self.player.direction.y > 0:
+                
+                if self.player.direction.y > 0:
                     player.rect.bottom = tile.rect.top
                     self.player.collide_Floor = 1
                     self.player.direction.y = 0
@@ -239,7 +227,21 @@ class Level:
                 
                 if tile.type == 'P':
                     self.world_shift(pygame.math.Vector2(self.player.rect.left - tile.goal.x, 0))
-                    
+
+        for item in self.items:
+            if player.rect.colliderect(item):    
+                if item.type == 'C' or item.type == 'A':
+                    if item.type == 'A':
+                        self.stats.update_coins(1)
+                        self.stats.update_score(500)
+                    else:
+                        self.stats.update_coins(1)
+                        self.stats.update_score(100)
+                    self.items.remove(item)
+                elif item.type == '1':
+                    self.stats.update_lives(1)
+                    self.stats.update_score(1000)
+                    self.items.remove(item)
 
     def world_shift(self, shift):
         shift = pygame.math.Vector2(int(shift.x), int(shift.y))
@@ -252,6 +254,9 @@ class Level:
 
         for tile in self.goal:
             tile.update(shift)
+
+        for item in self.items:
+            item.update(shift)
 
         for enemy in self.enemies:
             enemy.update(shift)
@@ -371,6 +376,9 @@ class Level:
             #Everyother type of tile
             else:
                 tile.draw(self.window.screen)
+
+        for item in self.items:
+            item.draw(self.window.screen)
 
         for tile in self.goal:
             if tile.type == 'G':
