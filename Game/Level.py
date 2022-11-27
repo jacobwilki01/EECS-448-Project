@@ -185,6 +185,11 @@ class Level:
                 elif item.type == '1':
                     self.stats.update_lives(1)
                     self.items.remove(item)
+
+        for enemy in self.enemies:
+            if player.rect.colliderect(enemy):
+                if(enemy.type == 'E' and player.direction.y <= 0):
+                    self.kill()
                 
 
     def vertical_movement_collision(self):
@@ -242,6 +247,12 @@ class Level:
                     self.stats.update_lives(1)
                     self.stats.update_score(1000)
                     self.items.remove(item)
+
+        for enemy in self.enemies:
+            if player.rect.colliderect(enemy):
+                if(enemy.type == 'E'):
+                    self.enemies.remove(enemy)
+                    player.jump()
 
     def world_shift(self, shift):
         shift = pygame.math.Vector2(int(shift.x), int(shift.y))
