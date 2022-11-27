@@ -1,0 +1,9 @@
+                        A A        X             XX
+                       C C C       XXX C         XX
+             A AAA                 XXXXX C       XX
+  A           XXXXX                XXXXXXX       XX  1
+XXX A      ^  XXXXXXXXMBBBBBBXXXXXMXXXXXXXXX C XMXXMXXX
+XXXXX C C C C XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX C XXXXXXXX
+XXXXXXXXXXXXXMXXXXX       A A     C C C      C XXXXXXXX                                          
+XXXXXXXXXXXXXXXXXXX  G   A A A   C C C C       XXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXBBXXXXXXXXXXX

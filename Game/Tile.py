@@ -53,13 +53,13 @@ class Tile():
                     self.sprite.states = temp_surface
 
                 elif self.type == 'G': #Goal
-                    image = ['missing.png']
+                    image = ['exit_32.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#9ae7c0')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#9ae7c0')
+                    #self.sprite.states = temp_surface
                 
                 #Features
                 elif self.type == 'L': #Run-Through Wall
@@ -87,21 +87,21 @@ class Tile():
                     temp_surface.fill('#ff0000')
                     self.sprite.states = temp_surface
                 elif self.type == 'P': #Portal Entrance
-                    image = ['missing.png']
+                    image = ['teleporter_128.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#59bfff')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#59bfff')
+                    #self.sprite.states = temp_surface
                 elif self.type == 'R': #Portal Exit
-                    image = ['missing.png']
+                    image = ['teleporter_exit_128.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#ff8e59')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#ff8e59')
+                    #self.sprite.states = temp_surface
                 elif self.type == 'M': #Super Jump
                     image = ['missing.png']
                     self.sprite = Sprite(image, self.rect)
@@ -121,26 +121,26 @@ class Tile():
 
                 #Items (Coins / 1-Ups)
                 elif self.type == 'A': #5 Coin
-                    image = ['missing.png']
+                    image = ['coin_5_32.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#59bfff')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#59bfff')
+                    #self.sprite.states = temp_surface
                 elif self.type == 'C': #1 Coin
-                    image = ['missing.png']
+                    image = ['coin_32.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#f7c65c')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#f7c65c')
+                    #self.sprite.states = temp_surface
                 elif self.type == '1': #1-Up
-                    image = ['missing.png']
+                    image = ['1_up_32.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#00c213')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#00c213')
+                    #self.sprite.states = temp_surface

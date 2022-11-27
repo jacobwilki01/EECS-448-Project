@@ -12,7 +12,16 @@ pygame.display.set_icon(pygame.image.load("graphics/player_idle.png"))
 
 window = Window()
 
-level_files = ['levels/world1-level1.txt','levels/world1-level2.txt','levels/world1-level3.txt','levels/world1-level4.txt','levels/world1-level5.txt']
+level_files =  ['levels/world1-level1.txt',
+                'levels/world1-level2.txt',
+                'levels/world1-level3.txt',
+                'levels/world1-level4.txt',
+                'levels/world1-level5.txt',
+                'levels/world1-level6.txt',
+                'levels/world1-level7.txt',
+                'levels/world1-level8.txt',
+                'levels/world1-level9.txt',
+                'levels/game-complete.txt',]
 
 #Try loading user settings
 try:
@@ -57,7 +66,7 @@ while running:
     
     if has_died:
         world = World(level_files, window)
-        #world = World(['levels/disappearingtest.txt'],screen)
+        loading = False
         has_died = False
 
     if window.game_state == 0:
@@ -100,11 +109,15 @@ while running:
             elif world_run[1] == 'settings':
                 window.game_state = 4
                 level_save = world_run[2]
-            elif world_run[1] == "exception":
-                window.game_state = 0
+            elif world_run[1] == "finished":
+                window.game_state = 6
             elif world_run[1] == "dead":
                 window.game_state = 0
                 has_died = True
+    elif window.game_state == 6:
+        world.stats.write_save_file()
+        window.game_state = 0
+        has_died = True
 
     pygame.display.update()
     clock.tick(window.frame_rate)
