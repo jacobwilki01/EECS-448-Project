@@ -3,7 +3,7 @@
 import pygame
 from Sprite import Sprite
 from Player import Player
-from Tile import Tile, Enemy
+from Tile import *
 from Settings import *
 from time import *
 
@@ -136,6 +136,11 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Enemy('E', tile_Size, x, y)
                     self.enemies.append(tile)
+                elif valX == 'S': #Basic Enemy
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Enemy_Sword('S', tile_Size, x, y)
+                    self.enemies.append(tile)                    
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -144,7 +149,8 @@ class Level:
                         tile2.goal = tile
 
         for enemy in self.enemies:
-            enemy.set_collision(self.tiles)
+            if enemy.type == 'E':
+                enemy.set_collision(self.tiles)
 
         #Centers Camera
         shift = pygame.math.Vector2( (self.window.width/2 - self.start_pos[0]), 0)
@@ -397,7 +403,10 @@ class Level:
 
         for enemy in self.enemies:
             enemy.draw(self.window.screen)
-            enemy.move()
+            if enemy.type == 'E':
+                enemy.move()
+            if enemy.type == 'S':
+                enemy.move(self.player.rect.center, self.tiles)
 
 
         update = self.player.update()
