@@ -141,6 +141,128 @@ class Tile():
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#00c213')
-                    #self.sprite.states = temp_surface
+                    temp_surface = pygame.Surface(self.rect.size)
+                    temp_surface.fill('#00c213')
+                    self.sprite.states = temp_surface
+
+#A basic left and right moving enemy that can be killed be jumping on its head
+class Enemy(Tile):
+    def __init__(self, type, size, x, y):
+        super().__init__(type, size, x, y)
+        self.speed = 4
+        self.direction = -1
+
+        self.bound_left = -float('inf')
+        self.bound_right = float('inf')
+
+        image = ['missing.png']
+        self.sprite = Sprite(image, self.rect)
+        #Remove the below code when we have an image for this
+        temp_surface = pygame.Surface(self.rect.size)
+        temp_surface.fill('#919191')
+        self.sprite.states = temp_surface
+
+    def set_collision(self, tile_arr):
+        center = self.rect.centerx
+
+        boundbox = self.rect.copy()
+        boundbox.left -= 2500
+        boundbox.width = 5000
+        
+        for tile in tile_arr:
+            if boundbox.colliderect(tile.rect):
+                temp_left = tile.rect.right - center
+                temp_right = tile.rect.left - center
+                self.bound_left = tile.rect.right if (tile.rect.right > self.bound_left and temp_left < 0) else self.bound_left
+                self.bound_right = tile.rect.left if (tile.rect.left < self.bound_right and temp_right > 0) else self.bound_right
+
+
+    def update(self, shift):
+        super().update(shift)
+        self.bound_left += shift.x
+        self.bound_right += shift.x
+
+    def move(self):
+        self.rect.left += self.speed * self.direction
+
+        if self.rect.right > self.bound_right:
+            self.rect.right = self.bound_right
+            self.direction *= -1
+        elif self.rect.left < self.bound_left:
+            self.rect.left = self.bound_left
+            self.direction *= -1
+
+class Enemy_Sword(Tile):
+    def __init__(self, type, size, x, y):
+        super().__init__(type, size, x, y)
+        self.speed = 0
+        self.velocity = pygame.Vector2(0,0)
+        self.dash_speed = 10
+        self.acc = .3
+        self.gravity = .1
+        self.direction = pygame.Vector2(0,0)
+        self.cooldown = 0
+        self.cooldown_time = 100
+        self.sword_range = 150
+
+        image = ['missing.png']
+        self.sprite = Sprite(image, self.rect)
+        #Remove the below code when we have an image for this
+        temp_surface = pygame.Surface(self.rect.size)
+        temp_surface.fill('#9661a0')
+        self.sprite.states = temp_surface
+
+    def update(self, shift):
+        super().update(shift)
+
+    def move(self, player_position, tile_arr):
+        player_vector = pygame.math.Vector2(player_position[0] - self.rect.centerx, player_position[1] - self.rect.centery)
+        distance = pygame.math.Vector2.length(player_vector)
+    
+
+        if self.speed == 0:
+            if distance == 0:
+                self.direction = pygame.Vector2(0,0)
+            else:
+                self.direction = pygame.math.Vector2.normalize(player_vector)
+
+        if distance < self.sword_range:
+            if self.speed == 0 and self.cooldown == 0:
+                self.speed =  self.dash_speed
+                self.cooldown = self.cooldown_time
+            
+        if self.speed != 0:
+            self.speed -= self.acc
+            if abs(self.speed) < .5:
+                self.speed = 0
+        if self.cooldown > 0:
+            self.cooldown -= 1
+
+        velocity = self.speed * self.direction
+        self.rect.left += velocity.x
+
+        for tile in tile_arr:
+            if self.rect.colliderect(tile):
+                print(tile.rect.center)
+                if velocity.x < 0:
+                    self.rect.left = tile.rect.right
+                    self.speed = 0
+                elif velocity.x > 0:
+                    self.rect.right = tile.rect.left
+                    self.speed = 0
+
+        self.velocity.y += self.gravity
+        self.rect.top += velocity.y + self.velocity.y
+
+        for tile in tile_arr:
+            if self.rect.colliderect(tile):
+                if velocity.y + self.velocity.y > 0:
+                    self.rect.bottom = tile.rect.top
+                    velocity.y = 0
+                    self.velocity.y = 0
+                elif velocity.y + self.velocity.y < 0:
+                    self.rect.top = tile.rect.bottom
+                    velocity.y = 0
+                    self.velocity.y = 0
+
+        

@@ -3,7 +3,7 @@
 import pygame
 from Sprite import Sprite
 from Player import Player
-from Tile import Tile
+from Tile import *
 from Settings import *
 from time import *
 
@@ -24,7 +24,7 @@ class Level:
         self.backround_Rect = backround_Rect
 
         self.tiles = []
-        self.removed_coins = []
+        self.items = []
         self.goal = []
         self.enemies = []
     
@@ -93,20 +93,20 @@ class Level:
 
                 #Items (Coins / 1-Ups)
                 elif valX == 'A': #5 Coin
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('A', tile_Size, x, y)
-                    self.tiles.append(tile)
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('A', tile_Size/4, x, y)
+                    self.items.append(tile)
                 elif valX == 'C': #1 Coin
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('C', tile_Size, x, y)
-                    self.tiles.append(tile)
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('C', tile_Size/4, x, y)
+                    self.items.append(tile)
                 elif valX == '1': #1-Up
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('1', tile_Size, x, y)
-                    self.tiles.append(tile)
+                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
+                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
+                    tile = Tile('1', tile_Size/4, x, y)
+                    self.items.append(tile)
                 
                 #message tiles
                 elif valX == '`': #Level 1 Message
@@ -129,42 +129,28 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
                     self.tiles.append(tile)
-                elif valX == '%': #Level 5 Message
+
+                #Enemy Tiles
+                elif valX == 'E': #Basic Enemy
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('%', tile_Size, x, y)
-                    self.tiles.append(tile)
-                elif valX == '^': #Level 6 Message
+                    tile = Enemy('E', tile_Size, x, y)
+                    self.enemies.append(tile)
+                elif valX == 'S': #Basic Enemy
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('^', tile_Size, x, y)
-                    self.tiles.append(tile)
-                elif valX == '&': #Level 7 Message
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('&', tile_Size, x, y)
-                    self.tiles.append(tile)
-                elif valX == '*': #Level x (First Enemy) Message 
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('*', tile_Size, x, y)
-                    self.tiles.append(tile)
-                elif valX == '(': #Level x (Second Enemy) Message 
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile('(', tile_Size, x, y)
-                    self.tiles.append(tile)
-                elif valX == ')': #Game Complete Message
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Tile(')', tile_Size, x, y)
-                    self.tiles.append(tile)
+                    tile = Enemy_Sword('S', tile_Size, x, y)
+                    self.enemies.append(tile)                    
         
         for tile in self.tiles:
             if tile.type == 'R':
                 for tile2 in self.tiles:
                     if tile2.type == "P":
                         tile2.goal = tile
+
+        for enemy in self.enemies:
+            if enemy.type == 'E':
+                enemy.set_collision(self.tiles)
 
         #Centers Camera
         shift = pygame.math.Vector2( (self.window.width/2 - self.start_pos[0]), 0)
@@ -187,20 +173,7 @@ class Level:
 
                 if tile.type == 'R': continue
 
-                if tile.type == 'C' or tile.type == 'A':
-                    if tile.type == 'A':
-                        self.stats.update_coins(1)
-                        self.stats.update_score(500)
-                    else:
-                        self.stats.update_coins(1)
-                        self.stats.update_score(100)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == '1':
-                    self.stats.update_lives(1)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == 'P':
+                if tile.type == 'P':
                     self.world_shift(pygame.math.Vector2(self.player.rect.left - tile.goal.x, 0))
                 elif self.player.speed < 0:
                     player.rect.left = tile.rect.right
@@ -208,6 +181,26 @@ class Level:
                 elif self.player.speed > 0:
                     player.rect.right = tile.rect.left
                     self.player.speed = 0
+
+        for item in self.items:
+            if player.rect.colliderect(item):
+                if item.type == 'C' or tile.type == 'A':
+                    if item.type == 'A':
+                        self.stats.update_coins(1)
+                        self.stats.update_score(500)
+                    else:
+                        self.stats.update_coins(1)
+                        self.stats.update_score(100)
+                    self.items.remove(item)
+                elif item.type == '1':
+                    self.stats.update_lives(1)
+                    self.items.remove(item)
+
+        for enemy in self.enemies:
+            if player.rect.colliderect(enemy):
+                if player.direction.y <= 0:
+                    self.kill()
+                
 
     def vertical_movement_collision(self):
         player = self.player
@@ -240,21 +233,8 @@ class Level:
                     if tile.timer > 10:
                         self.tiles.remove(tile)
 
-                if tile.type == 'C' or tile.type == 'A':
-                    if tile.type == 'A':
-                        self.stats.update_coins(1)
-                        self.stats.update_score(500)
-                    else:
-                        self.stats.update_coins(1)
-                        self.stats.update_score(100)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == '1':
-                    self.stats.update_lives(1)
-                    self.stats.update_score(1000)
-                    self.removed_coins.append(tile)
-                    self.tiles.remove(tile)
-                elif tile.type == 'P':
+                
+                if tile.type == 'P':
                     self.world_shift(pygame.math.Vector2(self.player.rect.left - tile.goal.x, 0))
                 elif self.player.direction.y > 0:
                     player.rect.bottom = tile.rect.top
@@ -276,6 +256,12 @@ class Level:
 
         for tile in self.goal:
             tile.update(shift)
+
+        for item in self.items:
+            item.update(shift)
+
+        for enemy in self.enemies:
+            enemy.update(shift)
 
         for sprite in self.backround_sprite:
             sprite.rect.x += int(shift.x / 4)
@@ -355,6 +341,8 @@ class Level:
             self.player.rect.topleft = self.start_pos
             self.stats.reset()
             return (True, 'dead')
+        
+        self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
 
         for tile in self.tiles:
             #Messages
@@ -422,11 +410,20 @@ class Level:
             else:
                 tile.draw(self.window.screen)
 
+        for item in self.items:
+            item.draw(self.window.screen)
+
         for tile in self.goal:
             if tile.type == 'G':
                 tile.draw(self.window.screen)
 
-        self.draw_stats(self.stats.lives, self.stats.coins, self.stats.score)
+        for enemy in self.enemies:
+            enemy.draw(self.window.screen)
+            if enemy.type == 'E':
+                enemy.move()
+            if enemy.type == 'S':
+                enemy.move(self.player.rect.center, self.tiles)
+
 
         update = self.player.update()
         if type(update) == tuple:
