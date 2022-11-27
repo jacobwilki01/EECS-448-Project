@@ -2,5 +2,5 @@
         C C C C A
        CVVVVVVVXX A
 XX     C       XXXX A                  A C A C A
-XXXX   C    A1AXXXXXX  P            R C C A A C C G
+XXXX   C   SA1AXXXXXX  P            R C C A A C C G
 XXXXXXXMXXXXXXXXXXXXXXXX            XVVVVVVVVVVVVVVV

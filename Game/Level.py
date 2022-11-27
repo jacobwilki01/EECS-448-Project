@@ -93,19 +93,19 @@ class Level:
 
                 #Items (Coins / 1-Ups)
                 elif valX == 'A': #5 Coin
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
-                    tile = Tile('A', tile_Size/4, x, y)
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('A', tile_Size, x, y)
                     self.items.append(tile)
                 elif valX == 'C': #1 Coin
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
-                    tile = Tile('C', tile_Size/4, x, y)
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('C', tile_Size, x, y)
                     self.items.append(tile)
                 elif valX == '1': #1-Up
-                    x = (indX * (tile_Size - 1)) + (tile_Size*(3/8))
-                    y = ((indY * (tile_Size - 1)) + (tile_Size*(3/8))) + bottom_Offset
-                    tile = Tile('1', tile_Size/4, x, y)
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('1', tile_Size, x, y)
                     self.items.append(tile)
                 
                 #message tiles
@@ -129,6 +129,36 @@ class Level:
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Tile('#', tile_Size, x, y)
                     self.tiles.append(tile)
+                elif valX == '%': #Level 5 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('%', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '^': #Level 6 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('^', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '&': #Level 7 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('&', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '*': #Enemy 1 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('*', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '-': #Enemy 2 Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('-', tile_Size, x, y)
+                    self.tiles.append(tile)
+                elif valX == '+': #Game Complete Message
+                    x = indX * tile_Size
+                    y = (indY * tile_Size) + bottom_Offset
+                    tile = Tile('+', tile_Size, x, y)
+                    self.tiles.append(tile)
 
                 #Enemy Tiles
                 elif valX == 'E': #Basic Enemy
@@ -140,7 +170,7 @@ class Level:
                     x = indX * tile_Size
                     y = (indY * tile_Size) + bottom_Offset
                     tile = Enemy_Sword('S', tile_Size, x, y)
-                    self.enemies.append(tile)                    
+                    self.enemies.append(tile)
         
         for tile in self.tiles:
             if tile.type == 'R':
@@ -166,7 +196,7 @@ class Level:
             if player.rect.colliderect(tile):
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
-                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%' or tile.type == '^' or tile.type == '&' or tile.type == '*' or tile.type == '(' or tile.type == ')': continue
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%' or tile.type == '^' or tile.type == '&' or tile.type == '*' or tile.type == '-' or tile.type == '+': continue
 
                 if tile.type == 'W':
                     player.get_up_input()
@@ -184,13 +214,13 @@ class Level:
 
         for item in self.items:
             if player.rect.colliderect(item):
-                if item.type == 'C' or tile.type == 'A':
-                    if item.type == 'A':
-                        self.stats.update_coins(1)
-                        self.stats.update_score(500)
-                    else:
-                        self.stats.update_coins(1)
-                        self.stats.update_score(100)
+                if item.type == 'C':
+                    self.stats.update_coins(1)
+                    self.stats.update_score(100)
+                    self.items.remove(item)
+                elif item.type == 'A':
+                    self.stats.update_coins(1)
+                    self.stats.update_score(500)
                     self.items.remove(item)
                 elif item.type == '1':
                     self.stats.update_lives(1)
@@ -198,8 +228,7 @@ class Level:
 
         for enemy in self.enemies:
             if player.rect.colliderect(enemy):
-                if player.direction.y <= 0:
-                    self.kill()
+                self.kill()
                 
 
     def vertical_movement_collision(self):
@@ -214,7 +243,7 @@ class Level:
 
                 if tile.type == 'L' and self.player.speed >= self.player.max_Speed: continue
                 
-                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%' or tile.type == '^' or tile.type == '&' or tile.type == '*' or tile.type == '(' or tile.type == ')': continue
+                if tile.type == '`' or tile.type == '@' or tile.type == '$' or tile.type == '#' or tile.type == '%' or tile.type == '^' or tile.type == '&' or tile.type == '*' or tile.type == '-' or tile.type == '+': continue
 
                 if tile.type == 'R': continue
 
@@ -243,6 +272,29 @@ class Level:
                 elif self.player.direction.y < 0:
                     player.rect.top = tile.rect.bottom
                     self.player.direction.y = 0
+        
+        for item in self.items:
+            if player.rect.colliderect(item):
+                if item.type == 'C':
+                    self.stats.update_coins(1)
+                    self.stats.update_score(100)
+                    self.items.remove(item)
+                elif item.type == 'A':
+                    self.stats.update_coins(1)
+                    self.stats.update_score(500)
+                    self.items.remove(item)
+                elif item.type == '1':
+                    self.stats.update_lives(1)
+                    self.items.remove(item)
+
+        for enemy in self.enemies:
+            if player.rect.colliderect(enemy):
+                if(enemy.type == 'E'):
+                    self.enemies.remove(enemy)
+                    player.jump()
+                if(enemy.type == 'S'):
+                    self.enemies.remove(enemy)
+                    player.jump()
                     
 
     def world_shift(self, shift):
@@ -394,18 +446,25 @@ class Level:
                 message_first_enemy.fill('#9b9b9b')
                 message_first_enemy.blit(message, (5,5))
                 self.window.screen.blit(message_first_enemy, (tile.rect.x, tile.rect.y))
-            elif tile.type == '(': #Level x (Second Enemy)
-                message = message_font.render('Jump on their Heads!', True, (0,0,0))
+            elif tile.type == '-': #Level x (Second Enemy)
+                message = message_font.render('Jump on their Head!', True, (0,0,0))
                 message_second_enemy = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
                 message_second_enemy.fill('#9b9b9b')
                 message_second_enemy.blit(message, (5,5))
                 self.window.screen.blit(message_second_enemy, (tile.rect.x, tile.rect.y))
-            elif tile.type == ')': #Game Complete
+            elif tile.type == '+': #Game Complete
+                message_1 = message_font.render('Run to the Goal to reset!', True, (0,0,0))
+                message_complete_1 = pygame.Surface((message_1.get_width() + 10, message_1.get_height() + 10))
+                message_complete_1.fill('#9b9b9b')
+                message_complete_1.blit(message_1, (5,5))
+                self.window.screen.blit(message_complete_1, (tile.rect.x, tile.rect.y + 60))
+                
                 game_complete_font = pygame.font.SysFont('Cambria', 50, bold=True)
-                message = game_complete_font.render('You Win! Run to the Goal to Reset!', True, (0,0,0))
-                message_complete = pygame.Surface((message.get_width() + 10, message.get_height() + 10))
+                message_2 = game_complete_font.render('You Win!', True, (0,0,0))
+                message_complete = pygame.Surface((message_2.get_width() + 10, message_2.get_height() + 10))
                 message_complete.fill('#9b9b9b')
-                message_complete.blit(message, (5,5))
+                message_complete.blit(message_2, (5,5))
+                self.window.screen.blit(message_complete, (tile.rect.x + message_1.get_width()/5, tile.rect.y))
             #Everyother type of tile
             else:
                 tile.draw(self.window.screen)

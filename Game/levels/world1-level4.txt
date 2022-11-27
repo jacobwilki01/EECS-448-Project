@@ -1,8 +1,8 @@
-                                 XXXXX
-              #             C    L   X
-             CCC           A A   L G X
-           WXXXXX       WXXXXXXXXXXXXX
-          AWXXXXX      AWXXXXXXXXXXXXX
-XXXX       WXXXXX      AWXXXXXXXXXXXXX
-XXXXXXBBBXXXXXXXX      AWXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXX       WXXXXXXXXXXXXX
+                                 XXXXXXXXX
+              #             C    L       X
+             CCC           A A   L   S G X
+           WXXXXX       WXXXXXXXXXXXXXXXXX
+          AWXXXXX      AWXXXXXXXXXXXXXXXXX
+XXXX       WXXXXX      AWXXXXXXXXXXXXXXXXX
+XXXXXXBBBXXXXXXXX      AWXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXX       WXXXXXXXXXXXXXXXXX

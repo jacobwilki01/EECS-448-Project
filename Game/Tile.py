@@ -141,9 +141,9 @@ class Tile():
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#00c213')
-                    self.sprite.states = temp_surface
+                    #temp_surface = pygame.Surface(self.rect.size)
+                    #temp_surface.fill('#00c213')
+                    #self.sprite.states = temp_surface
 
 #A basic left and right moving enemy that can be killed be jumping on its head
 class Enemy(Tile):
