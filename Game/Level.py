@@ -194,7 +194,7 @@ class Level:
 
         for enemy in self.enemies:
             if player.rect.colliderect(enemy):
-                if(enemy.type == 'E' and player.direction.y <= 0):
+                if player.direction.y <= 0:
                     self.kill()
                 
 
@@ -257,6 +257,9 @@ class Level:
         for enemy in self.enemies:
             if player.rect.colliderect(enemy):
                 if(enemy.type == 'E'):
+                    self.enemies.remove(enemy)
+                    player.jump()
+                if(enemy.type == 'S'):
                     self.enemies.remove(enemy)
                     player.jump()
 

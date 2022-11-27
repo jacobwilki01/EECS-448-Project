@@ -196,9 +196,10 @@ class Enemy_Sword(Tile):
     def __init__(self, type, size, x, y):
         super().__init__(type, size, x, y)
         self.speed = 0
-        self.dash_speed = 8
+        self.velocity = pygame.Vector2(0,0)
+        self.dash_speed = 10
         self.acc = .3
-        self.gravity = .8
+        self.gravity = .1
         self.direction = pygame.Vector2(0,0)
         self.cooldown = 0
         self.cooldown_time = 100
@@ -218,6 +219,7 @@ class Enemy_Sword(Tile):
     def move(self, player_position, tile_arr):
         player_vector = pygame.math.Vector2(player_position[0] - self.rect.centerx, player_position[1] - self.rect.centery)
         distance = pygame.math.Vector2.length(player_vector)
+    
 
         if self.speed == 0:
             if distance == 0:
@@ -229,34 +231,42 @@ class Enemy_Sword(Tile):
             if self.speed == 0 and self.cooldown == 0:
                 self.speed =  self.dash_speed
                 self.cooldown = self.cooldown_time
-            else:
-                if self.speed != 0:
-                    self.speed -= self.acc
-                    if abs(self.speed) < .5:
-                        self.speed = 0
-                if self.cooldown > 0:
-                    self.cooldown -= 1
+            
+        if self.speed != 0:
+            self.speed -= self.acc
+            if abs(self.speed) < .5:
+                self.speed = 0
+        if self.cooldown > 0:
+            self.cooldown -= 1
 
         velocity = self.speed * self.direction
-        self.rect.center += velocity
+        self.rect.left += velocity.x
 
         for tile in tile_arr:
             if self.rect.colliderect(tile):
+                print(tile.rect.center)
                 if velocity.x < 0:
                     self.rect.left = tile.rect.right
-                    velocity.x = 0
+                    self.speed = 0
                 elif velocity.x > 0:
                     self.rect.right = tile.rect.left
-                    velocity.x = 0
+                    self.speed = 0
+
+        self.velocity.y += self.gravity
+        self.rect.top += velocity.y + self.velocity.y
 
         for tile in tile_arr:
             if self.rect.colliderect(tile):
-                if velocity.y > 0:
+                if velocity.y + self.velocity.y > 0:
                     self.rect.bottom = tile.rect.top
                     velocity.y = 0
-                elif velocity.y < 0:
+                    self.velocity.y = 0
+                elif velocity.y + self.velocity.y < 0:
                     self.rect.top = tile.rect.bottom
                     velocity.y = 0
+                    self.velocity.y = 0
+
+        
 
 
 class Bullet(Tile):
