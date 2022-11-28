@@ -162,14 +162,14 @@ class Level:
 
                 #Enemy Tiles
                 elif valX == 'E': #Basic Enemy
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Enemy('E', tile_Size, x, y)
+                    x = indX * tile_Size + (tile_Size / 4)
+                    y = (indY * tile_Size) + (tile_Size / 4) + bottom_Offset
+                    tile = Enemy('E', 3*(tile_Size)/4, x, y)
                     self.enemies.append(tile)
                 elif valX == 'S': #Basic Enemy
-                    x = indX * tile_Size
-                    y = (indY * tile_Size) + bottom_Offset
-                    tile = Enemy_Sword('S', tile_Size, x, y)
+                    x = indX * tile_Size + (tile_Size / 4)
+                    y = (indY * tile_Size) + (tile_Size / 4) + bottom_Offset
+                    tile = Enemy_Sword('S', 3*(tile_Size)/4, x, y)
                     self.enemies.append(tile)
         
         for tile in self.tiles:
@@ -361,18 +361,23 @@ class Level:
     def draw_stats(self,lives,coins,score):
         font = pygame.font.SysFont('Cambria', 25)
 
-        lives_text = font.render('Lives: ' + str(lives), True, (255,255,255))
-        coins_text = font.render('Coins: ' + str(coins), True, (255,255,255))
-        score_text = font.render('Score: ' + str(score), True, (255,255,255))
+        lives_text = font.render('Lives: ' + str(lives), True, (0,0,0))
+        coins_text = font.render('Coins: ' + str(coins), True, (0,0,0))
+        score_text = font.render('Score: ' + str(score), True, (0,0,0))
         
         font = pygame.font.SysFont('Cambria', 25, bold=True)
 
-        level_text = font.render('Level ' + str(self.stats.level + 1), True, (255,255,255))
+        level_text = font.render('Level ' + str(self.stats.level + 1), True, (0,0,0))
 
+        board_1 = Sprite(['board_1.png'], pygame.Rect(0,0,100,80))
+        board_1.draw(self.window.screen)
         self.window.screen.blit(level_text, (10, 10))
         self.window.screen.blit(lives_text, (10, 40))
-        self.window.screen.blit(coins_text, (self.window.width-145, 10))
-        self.window.screen.blit(score_text, (self.window.width-145, 40))
+
+        board_2 = Sprite(['board_2.png'], pygame.Rect(self.window.width-155,0,155,80))
+        board_2.draw(self.window.screen)
+        self.window.screen.blit(coins_text, (self.window.width-142, 10))
+        self.window.screen.blit(score_text, (self.window.width-142, 40))
 
     def check_score(self):
         if self.stats.score > 100000:

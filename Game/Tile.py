@@ -1,12 +1,13 @@
 import pygame
 from Sprite import Sprite
+from threading import Timer
 
 class Tile():
     def __init__(self, type, size, x, y, p=None):
-        if type != 'B':
+        if type != 'V':
             self.rect = pygame.Rect(x, y, size, size)
         else:
-            self.rect = pygame.Rect(x, y+8, size, size-8)
+            self.rect = pygame.Rect(x, y, size, size/2)
         self.type = type
         self.x = x
         self.y = y
@@ -22,7 +23,9 @@ class Tile():
         if self.type == 'V':
             self.been_touched = False
             self.timer = 0
-
+        
+        if self.type == 'B':
+            self.state = 0
 
     def update(self, shift):
         self.rect.topleft += shift
@@ -38,7 +41,18 @@ class Tile():
         return f"({self.x}, {self.y})"
 
     def draw(self, screen):
-        self.sprite.draw(screen)
+        if self.type != 'B':
+            self.sprite.draw(screen)
+        else:
+            if self.state < 25:
+                self.sprite.draw(screen, 'lava.png')
+                self.state += 1
+            elif self.state < 49:
+                self.sprite.draw(screen, 'lava_2.png')
+                self.state += 1
+            else:
+                self.sprite.draw(screen, 'lava_2.png')
+                self.state = 0
 
     #Initializes the various tiles to their respective images
     def tile_image_initialization(self):
@@ -55,11 +69,6 @@ class Tile():
                 elif self.type == 'G': #Goal
                     image = ['exit_32.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#9ae7c0')
-                    #self.sprite.states = temp_surface
                 
                 #Features
                 elif self.type == 'L': #Run-Through Wall
@@ -79,71 +88,31 @@ class Tile():
                     temp_surface.fill('#919191')
                     self.sprite.states = temp_surface
                 elif self.type == 'B': #Lava
-                    image = ['lava.png']
-                    self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#ff0000')
-                    self.sprite.states = temp_surface
+                    images = ['lava.png','lava_2.png']
+                    self.sprite = Sprite(images, self.rect)
                 elif self.type == 'P': #Portal Entrance
                     image = ['teleporter_128.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#59bfff')
-                    #self.sprite.states = temp_surface
                 elif self.type == 'R': #Portal Exit
                     image = ['teleporter_exit_128.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#ff8e59')
-                    #self.sprite.states = temp_surface
                 elif self.type == 'M': #Super Jump
-                    image = ['missing.png']
+                    image = ['jump_tile.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#33ff33')
-                    self.sprite.states = temp_surface
                 elif self.type == 'V': #Disappearing Platform
-                    image = ['missing.png']
-                    self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#cce6ff')
-                    self.sprite.states = temp_surface
+                    image = ['disappear_tile.png']
+                    self.sprite = Sprite(image, self.rect)  
 
                 #Items (Coins / 1-Ups)
                 elif self.type == 'A': #5 Coin
                     image = ['coin_5_32.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#59bfff')
-                    #self.sprite.states = temp_surface
                 elif self.type == 'C': #1 Coin
                     image = ['coin_32.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#f7c65c')
-                    #self.sprite.states = temp_surface
                 elif self.type == '1': #1-Up
                     image = ['1_up_32.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    #temp_surface = pygame.Surface(self.rect.size)
-                    #temp_surface.fill('#00c213')
-                    #self.sprite.states = temp_surface
 
 #A basic left and right moving enemy that can be killed be jumping on its head
 class Enemy(Tile):
@@ -155,8 +124,8 @@ class Enemy(Tile):
         self.bound_left = -float('inf')
         self.bound_right = float('inf')
 
-        image = ['monster1.png']
-        self.sprite = Sprite(image, self.rect)
+        images = ['monster1.png','monster1_left.png','monster1_right.png']
+        self.sprite = Sprite(images, self.rect)
         
 
     def set_collision(self, tile_arr):
@@ -173,6 +142,13 @@ class Enemy(Tile):
                 self.bound_left = tile.rect.right if (tile.rect.right > self.bound_left and temp_left < 0) else self.bound_left
                 self.bound_right = tile.rect.left if (tile.rect.left < self.bound_right and temp_right > 0) else self.bound_right
 
+    def draw(self,screen):
+        if self.direction < 0:
+            self.sprite.draw(screen, 'monster1_left.png')
+        elif self.direction > 0:
+            self.sprite.draw(screen, 'monster1_right.png')
+        else:
+            self.sprite.draw(screen, 'monster1.png')
 
     def update(self, shift):
         super().update(shift)
@@ -202,15 +178,19 @@ class Enemy_Sword(Tile):
         self.cooldown_time = 100
         self.sword_range = 150
 
-        image = ['missing.png']
-        self.sprite = Sprite(image, self.rect)
-        #Remove the below code when we have an image for this
-        temp_surface = pygame.Surface(self.rect.size)
-        temp_surface.fill('#9661a0')
-        self.sprite.states = temp_surface
+        images = ['monster2.png']
+        self.sprite = Sprite(images, self.rect)
 
     def update(self, shift):
         super().update(shift)
+    
+    def draw(self,screen):
+        if self.direction.x < 0:
+            self.sprite.draw(screen, 'monster2_left.png')
+        elif self.direction.x > 0:
+            self.sprite.draw(screen, 'monster2_right.png')
+        else:
+            self.sprite.draw(screen, 'monster2.png')
 
     def move(self, player_position, tile_arr):
         player_vector = pygame.math.Vector2(player_position[0] - self.rect.centerx, player_position[1] - self.rect.centery)
@@ -240,7 +220,6 @@ class Enemy_Sword(Tile):
 
         for tile in tile_arr:
             if self.rect.colliderect(tile):
-                print(tile.rect.center)
                 if velocity.x < 0:
                     self.rect.left = tile.rect.right
                     self.speed = 0

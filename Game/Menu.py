@@ -1,6 +1,7 @@
 from turtle import clear
 import pygame
 from Settings import *
+from Sprite import Sprite
 
 class Menu:
     def __init__(self, window: Window):
@@ -11,7 +12,8 @@ class Menu:
 
     def run(self, events, load_error):
         #Draw background
-        pygame.draw.rect(self.window.screen, '#9b9b9b', self.backround_Rect)
+        background = Sprite(['menu_background.png'], self.backround_Rect)
+        background.draw(self.window.screen)
 
         #Draw Title
         title_Font = pygame.font.SysFont('Cambria', 100)
@@ -81,9 +83,10 @@ class Settings(Menu):
         self.update = [False, current_res]
 
     def run(self,events):
-        #Draw backround
-        pygame.draw.rect(self.window.screen, '#9b9b9b', self.backround_Rect)
-        
+        #Draw background
+        background = Sprite(['menu_background.png'], self.backround_Rect)
+        background.draw(self.window.screen)
+
         #Draw Title
         title_Font = pygame.font.SysFont('Cambria', 50)
         title_Text = title_Font.render('Settings', True, '#000000')
