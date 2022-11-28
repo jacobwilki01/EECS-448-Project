@@ -79,7 +79,7 @@ class Tile():
                     temp_surface.fill('#919191')
                     self.sprite.states = temp_surface
                 elif self.type == 'B': #Lava
-                    image = ['missing.png']
+                    image = ['lava.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
