@@ -79,7 +79,7 @@ class Tile():
                     temp_surface.fill('#919191')
                     self.sprite.states = temp_surface
                 elif self.type == 'B': #Lava
-                    image = ['missing.png']
+                    image = ['lava.png']
                     self.sprite = Sprite(image, self.rect)
 
                     #Remove the below code when we have an image for this tile
@@ -155,12 +155,9 @@ class Enemy(Tile):
         self.bound_left = -float('inf')
         self.bound_right = float('inf')
 
-        image = ['missing.png']
+        image = ['monster1.png']
         self.sprite = Sprite(image, self.rect)
-        #Remove the below code when we have an image for this
-        temp_surface = pygame.Surface(self.rect.size)
-        temp_surface.fill('#919191')
-        self.sprite.states = temp_surface
+        
 
     def set_collision(self, tile_arr):
         center = self.rect.centerx
