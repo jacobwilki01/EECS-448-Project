@@ -93,32 +93,28 @@ class Player:
             pygame.draw.rect(self.window.screen, '#9b9b9b', self.pause_bg)
 
             #draw title
-            title_font = pygame.font.SysFont('Cambria', 100)
-            title = title_font.render('Paused', True, (0,0,0))
-            title_rect = title.get_rect()
-            title_rect.center = (self.window.width / 2, self.window.height / 2 - 200)
-            self.window.screen.blit(title, title_rect)
+            rect = pygame.Rect(0, 0, 400, 200)
+            rect.center = self.window.width/2, self.window.height/2 - 200
+            paused = Sprite(['paused.png'], rect)
+            paused.draw(self.window.screen)
 
-            #draw buttons
-            button_text = pygame.font.SysFont('Cambria', 30)
+            #draw resume button
+            rect2 = pygame.Rect(0, 0, 200, 100)
+            rect2.center = (self.window.width/5 , (self.window.height/4)*3)
+            resume = Sprite(['resume.png'], rect2)
+            resume.draw(self.window.screen)
 
-            self.restart_button = self.pause_button.copy()
-            self.restart_button.center = (self.window.width/5 , (self.window.height/4)*3)
-            pygame.draw.rect(self.window.screen, '#d77467', self.restart_button)
-            text = button_text.render('Resume', True, (0,0,0))
-            self.window.screen.blit(text, (self.restart_button.x + 50, self.restart_button.y + 30))
+            #draw settings button
+            rect3 = pygame.Rect(0, 0, 200, 100)
+            rect3.center = (self.window.width/2 , (self.window.height/4)*3)
+            settings = Sprite(['settings_texture.png'], rect3)
+            settings.draw(self.window.screen)
 
-            self.settings_button = self.pause_button.copy()
-            self.settings_button.center = (self.window.width/2 , (self.window.height/4)*3)
-            pygame.draw.rect(self.window.screen, '#d77467', self.settings_button)
-            text = button_text.render('Settings', True, (0,0,0))
-            self.window.screen.blit(text, (self.settings_button.x + 50, self.settings_button.y + 30))
-
-            self.quit_button = self.pause_button.copy()
-            self.quit_button.center = ((self.window.width/5)*4 , (self.window.height/4)*3)
-            pygame.draw.rect(self.window.screen, '#d77467', self.quit_button)
-            text = button_text.render('Quit', True, (0,0,0))
-            self.window.screen.blit(text, (self.quit_button.x + 70, self.quit_button.y + 30))
+            #draw quit button
+            rect4 = pygame.Rect(0, 0, 200, 100)
+            rect4.center = ((self.window.width/5)*4 , (self.window.height/4)*3)
+            quit = Sprite(['quit.png'], rect4)
+            quit.draw(self.window.screen)
 
             pygame.display.update()
 
@@ -127,13 +123,13 @@ class Player:
                     pygame.quit()
                     quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.restart_button.collidepoint(event.pos):
+                    if rect2.collidepoint(event.pos):
                         self.paused = False
                         self.window.screen.fill((0,0,0))
                         break
-                    if self.settings_button.collidepoint(event.pos):
+                    if rect3.collidepoint(event.pos):
                         return (True, 'settings')
-                    if self.quit_button.collidepoint(event.pos):
+                    if rect4.collidepoint(event.pos):
                         self.paused = False
                         return (True, 'quit')
                 if event.type == pygame.KEYDOWN:
