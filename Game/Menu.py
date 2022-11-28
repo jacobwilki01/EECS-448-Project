@@ -16,60 +16,51 @@ class Menu:
         background.draw(self.window.screen)
 
         #Draw Title
-        title_Font = pygame.font.SysFont('Cambria', 100)
-        title_Text = title_Font.render('Alpha Speed', True, '#000000')
-        title_Rect = title_Text.get_rect()
-        title_Rect.center = (self.window.width/2, self.window.height/2 - 200)
-        self.window.screen.blit(title_Text, title_Rect)
+        rect = pygame.Rect(0, 0, 500, 280)
+        rect.center = (self.window.width/2, self.window.height/2 - 200)
+        title = Sprite(['Alpha_Speed.png'], rect)
+        title.draw(self.window.screen)
 
         #Draw New
-        self.new_button = self.button_Rect.copy()
-        self.new_button.center = (self.window.width/4 - 50, (self.window.height/4)*3)
-        pygame.draw.rect(self.window.screen, '#d77467', self.new_button)
-        button1_text = pygame.font.SysFont('Cambria', 30)
-        new = button1_text.render('New Game', True, '#000000')
-        self.window.screen.blit(new, (self.new_button.x + 30, self.new_button.y + 30))
+        rect2 = pygame.Rect(0, 0, 200, 100)
+        rect2.center = (self.window.width/4 - 50, (self.window.height/4)*3)
+        new = Sprite(['new_game.png'], rect2)
+        new.draw(self.window.screen)
 
         #Draw Load
-        self.load_button = self.button_Rect.copy()
-        self.load_button.center = (self.window.width/2 , (self.window.height/4)*3)
-        pygame.draw.rect(self.window.screen, '#d77467', self.load_button)
-        button2_text = pygame.font.SysFont('Cambria', 30)
-        load = button2_text.render('Load Game', True, '#000000')
-        self.window.screen.blit(load, (self.load_button.x + 30, self.load_button.y + 30))
+        rect3 = pygame.Rect(0, 0, 200, 100)
+        rect3.center = (self.window.width/2 , (self.window.height/4)*3)
+        load = Sprite(['load_game.png'], rect3)
+        load.draw(self.window.screen)
 
         #Draw Quit
-        self.quit_button = self.button_Rect.copy()
-        self.quit_button.center = ((self.window.width/4)*3 + 50,(self.window.height/4)*3)
-        pygame.draw.rect(self.window.screen, '#d77467', self.quit_button)
-        button2_text = pygame.font.SysFont('Cambria', 30)
-        quit = button2_text.render('Quit', True, '#000000')
-        self.window.screen.blit(quit, (self.quit_button.x + 70, self.quit_button.y + 30))
+        rect4 = pygame.Rect(0, 0, 200, 100)
+        rect4.center = ((self.window.width/4)*3 + 50,(self.window.height/4)*3)
+        quit = Sprite(['quit.png'], rect4)
+        quit.draw(self.window.screen)
 
         #Draw Settings
-        self.settings_button = self.button_Rect_small.copy()
-        self.button_Rect_small.center = (self.load_button.center[0], self.load_button.center[1] + 90)
-        pygame.draw.rect(self.window.screen, '#d77467', self.settings_button)
-        button2_text = pygame.font.SysFont('Cambria', 20)
-        settings = button2_text.render('Settings', True, '#000000')
-        self.window.screen.blit(settings, (self.settings_button.x + 15, self.settings_button.y + 5))
+        rect5 = pygame.Rect(0, 0, 100, 32.5)
+        rect5.center = (rect3.center[0], rect3.center[1] + 90)
+        settings = Sprite(['settings_texture.png'], rect5)
+        settings.draw(self.window.screen)
 
         #Draw Load Error Text
         if load_error:
             error_text = pygame.font.SysFont('Cambria', 20)
             load_error = error_text.render('No save file found', True, '#000000')
-            self.window.screen.blit(load_error, (self.load_button.x + 25, self.load_button.y + 70))
+            self.window.screen.blit(load_error, (rect3.x + 25, rect3.y + 70))
 
         #Check for button click
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.new_button.collidepoint(event.pos):
+                if rect2.collidepoint(event.pos):
                     return 1
-                elif self.load_button.collidepoint(event.pos):
+                elif rect3.collidepoint(event.pos):
                     return 2
-                elif self.quit_button.collidepoint(event.pos):
+                elif rect4.collidepoint(event.pos):
                     return 3
-                elif self.settings_button.collidepoint(event.pos):
+                elif rect5.collidepoint(event.pos):
                     return 4
                 
 

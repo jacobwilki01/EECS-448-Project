@@ -4,10 +4,10 @@ from threading import Timer
 
 class Tile():
     def __init__(self, type, size, x, y, p=None):
-        if type != 'V':
-            self.rect = pygame.Rect(x, y, size, size)
-        else:
+        if type == 'V':
             self.rect = pygame.Rect(x, y, size, size/2)
+        else:
+            self.rect = pygame.Rect(x, y, size, size)
         self.type = type
         self.x = x
         self.y = y
@@ -58,13 +58,8 @@ class Tile():
     def tile_image_initialization(self):
         #Basics
                 if self.type == 'X': #Floor
-                    image = ['missing.png']
+                    image = ['main_tile.png']
                     self.sprite = Sprite(image, self.rect)
-
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#363636')
-                    self.sprite.states = temp_surface
 
                 elif self.type == 'G': #Goal
                     image = ['exit_32.png']
@@ -72,21 +67,13 @@ class Tile():
                 
                 #Features
                 elif self.type == 'L': #Run-Through Wall
-                    image = ['missing.png']
+                    image = ['go_fast_tile.png']
                     self.sprite = Sprite(image, self.rect)
 
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#222222')
-                    self.sprite.states = temp_surface
                 elif self.type == 'W': #Wall Climb
-                    image = ['missing.png']
+                    image = ['climb_tile.png']
                     self.sprite = Sprite(image, self.rect)
 
-                    #Remove the below code when we have an image for this tile
-                    temp_surface = pygame.Surface(self.rect.size)
-                    temp_surface.fill('#919191')
-                    self.sprite.states = temp_surface
                 elif self.type == 'B': #Lava
                     images = ['lava.png','lava_2.png']
                     self.sprite = Sprite(images, self.rect)
