@@ -36,6 +36,8 @@ class Level:
 
         self.dummy = False
 
+        self.level_coins = 0
+
     def level_Setup(self, layout, tile_Size):
         bottom_Offset = self.window.height - len(layout)*tile_Size
 
@@ -217,10 +219,12 @@ class Level:
                 if item.type == 'C':
                     self.stats.update_coins(1)
                     self.stats.update_score(100)
+                    self.level_coins += 1
                     self.items.remove(item)
                 elif item.type == 'A':
                     self.stats.update_coins(1)
                     self.stats.update_score(500)
+                    self.level_coins += 1
                     self.items.remove(item)
                 elif item.type == '1':
                     self.stats.update_lives(1)
@@ -248,8 +252,8 @@ class Level:
                 if tile.type == 'R': continue
 
                 if tile.type == 'B':
-                    self.kill()
-                    return
+                    killed = self.kill()
+                    return killed
                 
                 if tile.type == 'M':
                     self.player.jump_Speed = -24
@@ -278,10 +282,12 @@ class Level:
                 if item.type == 'C':
                     self.stats.update_coins(1)
                     self.stats.update_score(100)
+                    self.level_coins += 1
                     self.items.remove(item)
                 elif item.type == 'A':
                     self.stats.update_coins(1)
                     self.stats.update_score(500)
+                    self.level_coins += 1
                     self.items.remove(item)
                 elif item.type == '1':
                     self.stats.update_lives(1)
@@ -349,6 +355,7 @@ class Level:
             self.stats.update_score(-250)
             self.player.rect.topleft = self.start_pos
             self.world_shift(-self.offset)
+            return (True,'loss')
     
     def kill(self):
         self.player.direction.y = 0
@@ -357,6 +364,7 @@ class Level:
         self.stats.update_score(-250)
         self.player.rect.topleft = self.start_pos
         self.world_shift(-self.offset)
+        return (True,'loss')
     
     def draw_stats(self,lives,coins,score):
         font = pygame.font.SysFont('Cambria', 25)
@@ -495,10 +503,16 @@ class Level:
                 return update
         
         self.horizontal_movement_collision()
-        self.vertical_movement_collision()
+        vert_mvmt = self.vertical_movement_collision()
+        if type(vert_mvmt) == tuple:
+            if vert_mvmt[0]:
+                return vert_mvmt
         self.scroll_x()
 
-        self.check_Death()
+        has_died = self.check_Death()
+        if type(has_died) == tuple:
+            if has_died[0]:
+                return has_died
 
         #pygame.draw.line(self.window.screen, '#ffffff', (0, 536), (self.window.width, 536))
         #pygame.draw.line(self.window.screen, '#ffffff', (self.window.width - self.window.width / 3, 0), (self.window.width - self.window.width / 3, self.window.hieght))

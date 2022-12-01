@@ -7,6 +7,7 @@ class World:
     def __init__(self, files, window: Window):
         self.window = window
         self.stats = World_Stats()
+        self.files = files
         self.levels = []
 
         for file in files:
@@ -27,14 +28,23 @@ class World:
             start = self.levels[self.stats.level].run()
             if type(start) == tuple:
                 if start[1] == 'quit':
+                    self.stats.coins -= self.levels[self.stats.level].level_coins
+                    self.levels[self.stats.level] = self.reset_level(self.stats.level)
                     return (start[0], start[1])
                 elif start[1] == 'settings':
                     return (start[0], start[1], self.stats.level)
                 elif start[1] == 'dead':
                     self.stats.update_level(-self.stats.level)
                     return (start[0], start[1])
+                elif start[1] == 'loss':
+                    self.levels[self.stats.level] = self.reset_level(self.stats.level)
+                    self.stats.coins -= self.levels[self.stats.level].level_coins
+                    return (start[0], start[1])
             elif start:
                 self.stats.update_level(1)
         else:
             self.stats.update_level(-self.stats.level)
             return (True,'finished')
+    
+    def reset_level(self, index):
+        return self.gen_levels(self.files[index])
