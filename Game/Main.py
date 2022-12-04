@@ -106,6 +106,7 @@ while running:
         if world_run != None:
             if world_run[1] == 'quit':
                 window.game_state = 0
+                level_save = None
             elif world_run[1] == 'settings':
                 window.game_state = 4
                 level_save = world_run[2]
